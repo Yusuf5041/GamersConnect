@@ -13,6 +13,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import com.jfoenix.controls.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -41,7 +44,7 @@ import javafx.scene.input.KeyEvent;
 public class FXMLDocumentController implements Callback, Initializable {
 
     @FXML
-    private AnchorPane gc_login, gc_main, gc_register, gc_guest_search;
+    private AnchorPane gc_login, gc_main, gc_register, gc_guest_search, gc_profile;
 
     @FXML
     private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton;
@@ -187,5 +190,11 @@ public class FXMLDocumentController implements Callback, Initializable {
     public Object call(Object param) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    public void handleProfileAction(ActionEvent event) throws IOException{
+       UserAccountList.getInstance().getUserList();
+       
+    }
+ }
 
-}
+
