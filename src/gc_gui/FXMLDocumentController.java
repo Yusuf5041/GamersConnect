@@ -156,6 +156,15 @@ public class FXMLDocumentController implements Callback, Initializable {
             }
         }
     }
+    public void handleProfileAction(ActionEvent event) throws IOException{
+       UserAccountList.getInstance().getUserList();
+       
+    }
+    
+     private void handleCreateLobbyAction(ActionEvent e){
+        //ROBBIE TO DO
+    }
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
