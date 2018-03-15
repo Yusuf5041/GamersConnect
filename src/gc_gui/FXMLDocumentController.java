@@ -159,7 +159,15 @@ public class FXMLDocumentController implements Callback, Initializable {
             }
         }
     }
-
+    public void handleProfileAction(ActionEvent event) throws IOException{
+       UserAccountList.getInstance().getUserList();
+       
+    }
+    
+    private void handleCreateLobbyAction(ActionEvent e){
+        //ROBBIE TO DO
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -191,10 +199,6 @@ public class FXMLDocumentController implements Callback, Initializable {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public void handleProfileAction(ActionEvent event) throws IOException{
-       UserAccountList.getInstance().getUserList();
-       
-    }
  }
 
 

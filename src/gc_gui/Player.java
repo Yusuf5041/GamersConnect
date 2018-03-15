@@ -109,12 +109,13 @@ public class Player {
 		// TODO - implement Player.deleteAccount
 		throw new UnsupportedOperationException();
 	}
-        /*
-	public HostRole createLobby() {
-		// TODO - implement Player.createLobby
+        
+	public Player createLobby() {
+		// ROBBIE TODO - implement Player.createLobby
+                //use addLobby method in lobby list to save lobby
 		throw new UnsupportedOperationException();
 	}
-        */
+        
 	/**
 	 * 
 	 * @param lobbyName
