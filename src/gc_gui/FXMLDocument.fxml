@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="545.0" prefWidth="848.0" style="-fx-background-color: #2D3447;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gc_gui.FXMLDocumentController">
+    <stylesheets>
+        <URL value="@gui.css" />
+    </stylesheets>
+   <children>
+      <AnchorPane fx:id="gc_login" prefHeight="545.0" prefWidth="848.0">
+         <children>
+            <Label layoutX="679.0" layoutY="46.0" text="Not a member?" textFill="#d3d4d6" />
+            <ImageView fitHeight="59.0" fitWidth="58.0" layoutX="236.0" layoutY="252.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Downloads/Lock-48.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="152.0" fitWidth="243.0" layoutX="303.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Downloads/LogoMakr_6GegbB.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="59.0" fitWidth="58.0" layoutX="236.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Downloads/User-Profile-48.png" />
+               </image>
+            </ImageView>
+            <JFXButton fx:id="loginButton" layoutX="387.0" layoutY="385.0" onAction="#handleLoginAction" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #e9f814;" text="Login" textFill="#2c2c2c">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXTextField fx:id="passwordField" focusColor="#d3d4d6" layoutX="304.0" layoutY="266.0" prefHeight="25.0" prefWidth="243.0" promptText="  Password" style="-fx-text-fill: #ffffff;" stylesheets="@../../../../Downloads/JFoenix-master/JFoenix-master/jfoenix/src/main/resources/css/controls/jfx-text-field.css" unFocusColor="#b1b3b8">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="usernameField" focusColor="#d3d4d6" layoutX="304.0" layoutY="202.0" prefHeight="25.0" prefWidth="243.0" promptText="  Username" style="-fx-text-fill: #ffffff;" unFocusColor="#b1b3b8">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXTextField>
+            <Label layoutX="426.0" layoutY="131.0" text="Connect" textFill="#e9f814">
+               <font>
+                  <Font name="Malgun Gothic Bold" size="25.0" />
+               </font>
+            </Label>
+            <Label layoutX="334.0" layoutY="130.0" text="Gamers" textFill="#bfc0c3">
+               <font>
+                  <Font name="Malgun Gothic Bold" size="25.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="signupButton" layoutX="768.0" layoutY="42.0" onAction="#handleSignupAction" style="-fx-background-color: #151928;" text="Sign Up" textFill="#d3d4d6" />
+            <JFXButton fx:id="guestButton" layoutX="334.0" layoutY="477.0" onAction="#handleGuestButton" prefHeight="30.0" prefWidth="180.0" text="Continue as guest &gt;" textFill="#e9f814">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="gc_main" prefHeight="545.0" prefWidth="848.0" visible="false">
+         <children>
+            <Label layoutX="558.0" layoutY="483.0" text="Login Successful" textFill="WHITE">
+               <font>
+                  <Font size="38.0" />
+               </font>
+            </Label>
+            <AnchorPane prefHeight="76.0" prefWidth="848.0" style="-fx-border-color: #e9f814; -fx-border-style: hidden hidden solid hidden; -fx-border-width: 2px;" visible="false">
+               <children>
+                  <JFXButton fx:id="registerButton1" layoutX="124.0" layoutY="19.0" onAction="#handleRegisterAction" prefHeight="39.0" prefWidth="90.0" text="Lobbies" textFill="#e9f814">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="registerButton11" layoutX="379.0" layoutY="19.0" onAction="#handleRegisterAction" prefHeight="39.0" prefWidth="90.0" text="Users" textFill="#e9f814">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="registerButton12" layoutX="628.0" layoutY="19.0" onAction="#handleRegisterAction" prefHeight="39.0" prefWidth="90.0" text="Profile" textFill="#e9f814">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </AnchorPane>
+            <JFXTabPane prefHeight="545.0" prefWidth="848.0" stylesheets="@../../../../Downloads/JFoenix-master/JFoenix-master/jfoenix/src/main/resources/css/controls/jfx-tab-pane.css">
+               <tabs>
+                  <Tab style="-fx-background-color: #2D3447;" text="Lobbies">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #2d3447;">
+                           <children>
+                              <TableView fx:id="lobbyTable" layoutX="19.0" layoutY="151.0" prefHeight="290.0" prefWidth="811.0" style="-fx-background-color: #2d3447;">
+                                <columns>
+                                  <TableColumn fx:id="titleCol" prefWidth="217.0" text="Title" />
+                                  <TableColumn fx:id="gameCol" minWidth="0.0" prefWidth="207.0" text="Game" />
+                                    <TableColumn fx:id="modeCol" prefWidth="151.0" text="Mode" />
+                                    <TableColumn fx:id="rankCol" minWidth="0.0" prefWidth="168.0" text="Rank" />
+                                    <TableColumn fx:id="sizeCol" prefWidth="67.0" text="Size" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab style="-fx-background-color: #2d3447;" text="Users">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+                  <Tab style="-fx-background-color: #2d3447;" text="Profile">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+               </tabs>
+            </JFXTabPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="gc_register" prefHeight="545.0" prefWidth="848.0" visible="false">
+         <children>
+            <ImageView fitHeight="152.0" fitWidth="243.0" layoutX="303.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Downloads/LogoMakr_6GegbB.png" />
+               </image>
+            </ImageView>
+            <JFXTextField fx:id="newPasswordField" focusColor="#d3d4d6" layoutX="303.0" layoutY="285.0" prefHeight="25.0" prefWidth="243.0" promptText="  Password" style="-fx-text-fill: #ffffff;" stylesheets="@../../../../Downloads/JFoenix-master/JFoenix-master/jfoenix/src/main/resources/css/controls/jfx-text-field.css" unFocusColor="#b1b3b8">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="newUsernameField" focusColor="#d3d4d6" layoutX="303.0" layoutY="210.0" prefHeight="25.0" prefWidth="243.0" promptText="  Username" style="-fx-text-fill: #ffffff;" unFocusColor="#b1b3b8">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXTextField>
+            <Label layoutX="425.0" layoutY="142.0" text="Connect" textFill="#e9f814">
+               <font>
+                  <Font name="Malgun Gothic Bold" size="25.0" />
+               </font>
+            </Label>
+            <Label layoutX="335.0" layoutY="142.0" text="Gamers" textFill="#bfc0c3">
+               <font>
+                  <Font name="Malgun Gothic Bold" size="25.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="newDiscordField" focusColor="#d3d4d6" layoutX="303.0" layoutY="357.0" prefHeight="25.0" prefWidth="243.0" promptText="  Discord (optional)" style="-fx-text-fill: #ffffff;" stylesheets="@../../../../Downloads/JFoenix-master/JFoenix-master/jfoenix/src/main/resources/css/controls/jfx-text-field.css" unFocusColor="#b1b3b8">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXButton fx:id="registerButton" layoutX="387.0" layoutY="437.0" onAction="#handleRegisterAction" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #e9f814;" text="Register" textFill="#2c2c2c">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="backButton" layoutX="47.0" layoutY="45.0" onAction="#handleBackAction" prefHeight="30.0" prefWidth="120.0" ripplerFill="BLACK" text="&lt; Back to login" textFill="#d3d4d6">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="gc_guest_search" prefHeight="545.0" prefWidth="848.0" visible="false">
+         <children>
+            <JFXTextField fx:id="searchField" focusColor="#d3d4d6" layoutX="197.0" layoutY="258.0" onKeyPressed="#handleAutoComplete" prefHeight="45.0" prefWidth="307.0" promptText="  Search users..." style="-fx-text-fill: #000000; -fx-background-color: #ffffff;" stylesheets="@../../../../Downloads/JFoenix-master/JFoenix-master/jfoenix/src/main/resources/css/controls/jfx-text-field.css" unFocusColor="#b1b3b8">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXTextField>
+            <ImageView fitHeight="152.0" fitWidth="243.0" layoutX="303.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Downloads/LogoMakr_6GegbB.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="424.0" layoutY="134.0" text="Connect" textFill="#e9f814">
+               <font>
+                  <Font name="Malgun Gothic Bold" size="25.0" />
+               </font>
+            </Label>
+            <Label layoutX="334.0" layoutY="134.0" text="Gamers" textFill="#bfc0c3">
+               <font>
+                  <Font name="Malgun Gothic Bold" size="25.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="signupButton1" layoutX="512.0" layoutY="258.0" onAction="#handleSignupAction" prefHeight="45.0" prefWidth="98.0" style="-fx-background-color: #e9f814;" text="Search">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <TextArea fx:id="suggestedUsersArea" layoutX="197.0" layoutY="303.0" prefHeight="55.0" prefWidth="307.0" visible="false" />
+            <JFXButton fx:id="backButton2" layoutX="39.0" layoutY="37.0" onAction="#handleBackAction" prefHeight="30.0" prefWidth="120.0" ripplerFill="BLACK" text="&lt; Back to login" textFill="#d3d4d6">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
