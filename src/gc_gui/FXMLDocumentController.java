@@ -143,6 +143,7 @@ public class FXMLDocumentController implements Callback, Initializable {
                             text += "\n" + users.get(i).getUsername();
                         }
                     }
+
                 }
                 if (count > 0) {
                     suggestedUsersArea.setVisible(true);
@@ -156,15 +157,6 @@ public class FXMLDocumentController implements Callback, Initializable {
             }
         }
     }
-    public void handleProfileAction(ActionEvent event) throws IOException{
-       UserAccountList.getInstance().getUserList();
-       
-    }
-    
-     private void handleCreateLobbyAction(ActionEvent e){
-        //ROBBIE TO DO
-    }
-    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -2,18 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/NetBeansProjects/GC_GUI/src/gc_gui/Lobby.java</file>
-            <file>file:/D:/NetBeansProjects/GC_GUI/src/gc_gui/GameList.java</file>
-            <file>file:/D:/NetBeansProjects/GC_GUI/src/gc_gui/LobbyList.java</file>
-            <file>file:/D:/NetBeansProjects/GC_GUI/src/gc_gui/UserAccountList.java</file>
-            <file>file:/D:/NetBeansProjects/GC_GUI/src/gc_gui/GameMode.java</file>
-            <file>file:/D:/NetBeansProjects/GC_GUI/src/gc_gui/FXMLDocument.fxml</file>
-            <file>file:/D:/NetBeansProjects/GC_GUI/src/gc_gui/GC_GUI.java</file>
-            <file>file:/D:/NetBeansProjects/GC_GUI/src/gc_gui/Player.java</file>
-            <file>file:/D:/NetBeansProjects/GC_GUI/src/gc_gui/Game.java</file>
-            <file>file:/D:/NetBeansProjects/GC_GUI/src/gc_gui/FXMLDocumentController.java</file>
-            <file>file:/D:/NetBeansProjects/GC_GUI/src/gc_gui/Register.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
