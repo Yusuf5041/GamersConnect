@@ -41,16 +41,16 @@ import javafx.scene.input.KeyEvent;
 public class FXMLDocumentController implements Callback, Initializable {
 
     @FXML
-    private AnchorPane gc_login, gc_main, gc_register, gc_guest_search;
+    private AnchorPane gc_login, gc_main, gc_register, gc_guest_search, gc_create_form;
 
     @FXML
-    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton;
+    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton;
 
     @FXML
-    private JFXTextField usernameField, passwordField, newUsernameField, newPasswordField, newDiscordField, searchField;
+    private JFXTextField usernameField, passwordField, newUsernameField, newPasswordField, newDiscordField, searchField, formLobbyTitle;
 
     @FXML
-    private JFXComboBox gameBox;
+    private JFXComboBox gameBox, formGame, formRank, formSize, formMode;
 
     @FXML
     private TextArea suggestedUsersArea;
@@ -155,6 +155,14 @@ public class FXMLDocumentController implements Callback, Initializable {
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+    
+    @FXML
+    private void handleCreateButton(ActionEvent event) {
+        if (event.getTarget() == createButton) {
+            gc_login.setVisible(false);
+            gc_create_form.setVisible(true);
         }
     }
 
