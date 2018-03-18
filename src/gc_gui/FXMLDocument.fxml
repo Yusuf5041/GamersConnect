@@ -212,15 +212,15 @@
       </AnchorPane>
       <AnchorPane prefHeight="545.0" prefWidth="848.0" visible="false">
          <children>
-            <JFXTextField fx:id="passwordField1" focusColor="#d3d4d6" layoutX="201.0" layoutY="94.0" prefHeight="30.0" prefWidth="447.0" promptText="  Title" style="-fx-text-fill: #ffffff;" stylesheets="@../../../../Downloads/JFoenix-master/JFoenix-master/jfoenix/src/main/resources/css/controls/jfx-text-field.css" unFocusColor="#b1b3b8">
+            <JFXTextField fx:id="formLobbyTitle" focusColor="#d3d4d6" layoutX="201.0" layoutY="94.0" prefHeight="30.0" prefWidth="447.0" promptText="  Title" style="-fx-text-fill: #ffffff;" stylesheets="@../../../../Downloads/JFoenix-master/JFoenix-master/jfoenix/src/main/resources/css/controls/jfx-text-field.css" unFocusColor="#b1b3b8">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXTextField>
-            <JFXComboBox layoutX="201.0" layoutY="173.0" prefHeight="36.0" prefWidth="243.0" promptText="  Game" />
-            <JFXComboBox layoutX="201.0" layoutY="248.0" prefHeight="45.0" prefWidth="243.0" promptText="  Mode" />
-            <JFXComboBox layoutX="504.0" layoutY="173.0" prefHeight="36.0" prefWidth="144.0" promptText="  Rank" />
-            <JFXComboBox layoutX="504.0" layoutY="248.0" prefHeight="45.0" prefWidth="144.0" promptText="  Lobby Size" />
+            <JFXComboBox fx:id="formGame" layoutX="201.0" layoutY="173.0" prefHeight="36.0" prefWidth="243.0" promptText="  Game" />
+            <JFXComboBox fx:id="formMode" layoutX="201.0" layoutY="248.0" prefHeight="45.0" prefWidth="243.0" promptText="  Mode" />
+            <JFXComboBox fx:id="formRank" layoutX="504.0" layoutY="173.0" prefHeight="36.0" prefWidth="144.0" promptText="  Rank" />
+            <JFXComboBox fx:id="formSize" layoutX="504.0" layoutY="248.0" prefHeight="45.0" prefWidth="144.0" promptText="  Lobby Size" />
             <JFXButton fx:id="createButton1" layoutX="367.0" layoutY="343.0" onAction="#handleSignupAction" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: #e9f814;" text="Create" textFill="#2c2c2c" />
             <Label contentDisplay="CENTER" layoutX="355.0" layoutY="27.0" prefHeight="45.0" prefWidth="144.0" text="Create Lobby" textAlignment="CENTER" textFill="#d3d4d6">
                <font>
