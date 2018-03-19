@@ -43,10 +43,10 @@ import javafx.scene.input.KeyEvent;
 public class FXMLDocumentController implements Callback, Initializable {
 
     @FXML
-    private AnchorPane gc_login, gc_main, gc_register, gc_guest_search, gc_create_form;
+    private AnchorPane gc_login, gc_main, gc_register, gc_guest_search, gc_create_form, gc_profile;
 
     @FXML
-    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton, createLobbyButton;
+    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton, createLobbyButton, saveProfileButton, addGameButton, addButton, createBack, addBack;
 
     @FXML
     private Button signupButton2;
@@ -54,6 +54,9 @@ public class FXMLDocumentController implements Callback, Initializable {
     @FXML
     private JFXTextField usernameField, passwordField, newUsernameField, newPasswordField, newDiscordField, searchField, formLobbyTitle;
     
+    @FXML
+    private TextField profileUsernameField, profileDiscordField, gameIdField; 
+            
     @FXML
     private ComboBox<String> formGame, formRank, formSize, formMode;
 
@@ -66,6 +69,12 @@ public class FXMLDocumentController implements Callback, Initializable {
     @FXML
     private TableColumn titleCol, gameCol, modeCol, rankCol, sizeCol;
 
+    @FXML
+    private Label addGameLabel, createLobbyLabel;
+    
+    @FXML
+    private JFXTabPane tabPane;
+    
     @FXML
     private void handleLoginAction(ActionEvent event) throws IOException {
         if (event.getTarget() == loginButton) {
@@ -100,6 +109,11 @@ public class FXMLDocumentController implements Callback, Initializable {
             gc_register.setVisible(false);
             gc_guest_search.setVisible(false);
         }
+        else if(event.getTarget() == createBack){
+            gc_create_form.setVisible(false);
+            gc_main.setVisible(true);
+        }
+        
     }
 
     @FXML
@@ -164,10 +178,40 @@ public class FXMLDocumentController implements Callback, Initializable {
     }
 
     @FXML
-    private void handleCreateButton(ActionEvent event) {
+    private void handleCreationButton(ActionEvent event) {
         if (event.getTarget() == createButton) {
             gc_main.setVisible(false);
             gc_create_form.setVisible(true);
+            //for lobby
+            createLobbyLabel.setVisible(true);
+            addGameLabel.setVisible(false);
+            
+            formLobbyTitle.setVisible(true);
+            gameIdField.setVisible(false);
+            
+            formMode.setVisible(true);
+            formSize.setVisible(true);
+            
+            createLobbyButton.setVisible(true);
+            addButton.setVisible(false);
+
+            
+            
+        }else if (event.getTarget() == addGameButton) {
+            gc_main.setVisible(false);
+            gc_create_form.setVisible(true);
+            //for profile
+            createLobbyLabel.setVisible(false);
+            addGameLabel.setVisible(true);
+            
+            formLobbyTitle.setVisible(false);
+            gameIdField.setVisible(true);
+            
+            formMode.setVisible(false);
+            formSize.setVisible(false);
+            
+            createLobbyButton.setVisible(false);
+            addButton.setVisible(true);
         }
     }
 
