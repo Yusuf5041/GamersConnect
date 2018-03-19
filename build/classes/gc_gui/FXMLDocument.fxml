@@ -4,6 +4,8 @@
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TableColumn?>
@@ -19,7 +21,7 @@
         <URL value="@gui.css" />
     </stylesheets>
    <children>
-      <AnchorPane fx:id="gc_login" prefHeight="545.0" prefWidth="848.0">
+      <AnchorPane fx:id="gc_login" prefHeight="545.0" prefWidth="848.0" style="-fx-background-color: #2D3447;" visible="false">
          <children>
             <Label layoutX="679.0" layoutY="46.0" text="Not a member?" textFill="#d3d4d6" />
             <ImageView fitHeight="59.0" fitWidth="58.0" layoutX="236.0" layoutY="252.0" pickOnBounds="true" preserveRatio="true">
@@ -42,7 +44,7 @@
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXTextField fx:id="passwordField" focusColor="#d3d4d6" layoutX="304.0" layoutY="266.0" prefHeight="25.0" prefWidth="243.0" promptText="  Password" style="-fx-text-fill: #ffffff;" stylesheets="@../../../../Downloads/JFoenix-master/JFoenix-master/jfoenix/src/main/resources/css/controls/jfx-text-field.css" unFocusColor="#b1b3b8">
+            <JFXTextField fx:id="passwordField" focusColor="#d3d4d6" layoutX="304.0" layoutY="266.0" prefHeight="25.0" prefWidth="243.0" promptText="  Password" style="-fx-text-fill: #ffffff;" stylesheets="@../../lib/resources/css/controls/jfx-text-field.css" unFocusColor="#b1b3b8">
                <font>
                   <Font size="14.0" />
                </font>
@@ -68,41 +70,18 @@
                   <Font size="14.0" />
                </font>
             </JFXButton>
+            <Button fx:id="signupButton2" layoutX="560.0" layoutY="388.0" mnemonicParsing="false" onAction="#handleSignupAction" style="-fx-background-color: #e9f814;" text="login" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="gc_main" prefHeight="545.0" prefWidth="848.0" visible="false">
+      <AnchorPane fx:id="gc_main" prefHeight="545.0" prefWidth="848.0" style="-fx-background-color: #2D3447;">
          <children>
-            <Label layoutX="558.0" layoutY="483.0" text="Login Successful" textFill="WHITE">
-               <font>
-                  <Font size="38.0" />
-               </font>
-            </Label>
-            <AnchorPane prefHeight="76.0" prefWidth="848.0" style="-fx-border-color: #e9f814; -fx-border-style: hidden hidden solid hidden; -fx-border-width: 2px;" visible="false">
-               <children>
-                  <JFXButton fx:id="registerButton1" layoutX="124.0" layoutY="19.0" onAction="#handleRegisterAction" prefHeight="39.0" prefWidth="90.0" text="Lobbies" textFill="#e9f814">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="registerButton11" layoutX="379.0" layoutY="19.0" onAction="#handleRegisterAction" prefHeight="39.0" prefWidth="90.0" text="Users" textFill="#e9f814">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="registerButton12" layoutX="628.0" layoutY="19.0" onAction="#handleRegisterAction" prefHeight="39.0" prefWidth="90.0" text="Profile" textFill="#e9f814">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </AnchorPane>
-            <JFXTabPane prefHeight="545.0" prefWidth="848.0" stylesheets="@../../../../Downloads/JFoenix-master/JFoenix-master/jfoenix/src/main/resources/css/controls/jfx-tab-pane.css">
+            <JFXTabPane prefHeight="545.0" prefWidth="848.0" style="-fx-background-color: #2D3447;" stylesheets="@../../lib/resources/css/controls/jfx-tab-pane.css">
                <tabs>
                   <Tab style="-fx-background-color: #2D3447;" text="Lobbies">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #2d3447;">
                            <children>
-                              <TableView fx:id="lobbyTable" layoutX="19.0" layoutY="151.0" prefHeight="290.0" prefWidth="811.0" style="-fx-background-color: #2d3447;">
+                              <TableView fx:id="lobbyTable" layoutX="19.0" layoutY="151.0" prefHeight="290.0" prefWidth="811.0" style="-fx-background-color: #2d3447; -fx-border-style: solid; -fx-border-color: #2c2c2c;">
                                 <columns>
                                   <TableColumn fx:id="titleCol" prefWidth="217.0" text="Title" />
                                   <TableColumn fx:id="gameCol" minWidth="0.0" prefWidth="207.0" text="Game" />
@@ -111,18 +90,43 @@
                                     <TableColumn fx:id="sizeCol" prefWidth="67.0" text="Size" />
                                 </columns>
                               </TableView>
+                              <JFXButton fx:id="createButton" layoutX="306.0" layoutY="453.0" onAction="#handleCreateButton" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: #e9f814;" text="Create" textFill="#2c2c2c" />
+                              <JFXButton fx:id="joinButton" layoutX="456.0" layoutY="453.0" onAction="#handleSignupAction" prefHeight="25.0" prefWidth="49.0" style="-fx-background-color: #e9f814;" text="Join" textFill="#2c2c2c" />
                            </children>
                         </AnchorPane>
                     </content>
                   </Tab>
                   <Tab style="-fx-background-color: #2d3447;" text="Users">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #2D3447;">
+                           <children>
+                              <JFXTextField fx:id="searchField1" focusColor="#d3d4d6" layoutX="225.0" layoutY="194.0" onKeyPressed="#handleAutoComplete" prefHeight="45.0" prefWidth="307.0" promptText="  Search users..." style="-fx-text-fill: #000000; -fx-background-color: #ffffff;" stylesheets="@../../../../Downloads/JFoenix-master/JFoenix-master/jfoenix/src/main/resources/css/controls/jfx-text-field.css" unFocusColor="#b1b3b8">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXTextField>
+                              <Label layoutX="440.0" layoutY="58.0" text="Connect" textFill="#e9f814">
+                                 <font>
+                                    <Font name="Malgun Gothic Bold" size="25.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="350.0" layoutY="58.0" text="Gamers" textFill="#bfc0c3">
+                                 <font>
+                                    <Font name="Malgun Gothic Bold" size="25.0" />
+                                 </font>
+                              </Label>
+                              <JFXButton fx:id="signupButton11" layoutX="548.0" layoutY="194.0" onAction="#handleSignupAction" prefHeight="45.0" prefWidth="98.0" style="-fx-background-color: #e9f814;" text="Search">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXButton>
+                              <TextArea fx:id="suggestedUsersArea1" layoutX="225.0" layoutY="239.0" prefHeight="55.0" prefWidth="307.0" visible="false" />
+                           </children></AnchorPane>
                     </content>
                   </Tab>
                   <Tab style="-fx-background-color: #2d3447;" text="Profile">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #2D3447;" />
                     </content>
                   </Tab>
                </tabs>
@@ -136,7 +140,7 @@
                   <Image url="@../../../../Downloads/LogoMakr_6GegbB.png" />
                </image>
             </ImageView>
-            <JFXTextField fx:id="newPasswordField" focusColor="#d3d4d6" layoutX="303.0" layoutY="285.0" prefHeight="25.0" prefWidth="243.0" promptText="  Password" style="-fx-text-fill: #ffffff;" stylesheets="@../../../../Downloads/JFoenix-master/JFoenix-master/jfoenix/src/main/resources/css/controls/jfx-text-field.css" unFocusColor="#b1b3b8">
+            <JFXTextField fx:id="newPasswordField" focusColor="#d3d4d6" layoutX="303.0" layoutY="285.0" prefHeight="25.0" prefWidth="243.0" promptText="  Password" style="-fx-text-fill: #ffffff;" stylesheets="@../../lib/resources/css/controls/jfx-text-field.css" unFocusColor="#b1b3b8">
                <font>
                   <Font size="14.0" />
                </font>
@@ -206,6 +210,25 @@
                   <Font size="14.0" />
                </font>
             </JFXButton>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="gc_create_form" prefHeight="545.0" prefWidth="848.0" visible="false">
+         <children>
+            <JFXTextField fx:id="formLobbyTitle" focusColor="#d3d4d6" layoutX="201.0" layoutY="94.0" prefHeight="30.0" prefWidth="447.0" promptText="  Title" style="-fx-text-fill: #e9f814;" stylesheets="@../../../../Downloads/JFoenix-master/JFoenix-master/jfoenix/src/main/resources/css/controls/jfx-text-field.css" unFocusColor="#b1b3b8">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXTextField>
+            <JFXButton fx:id="createLobbyButton" layoutX="367.0" layoutY="400.0" onAction="#handleSignupAction" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: #2c2c2c;" text="Create" textFill="#e9f814" />
+            <Label contentDisplay="CENTER" layoutX="355.0" layoutY="27.0" prefHeight="45.0" prefWidth="144.0" text="Create Lobby" textAlignment="CENTER" textFill="#d3d4d6">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="formGame" layoutX="201.0" layoutY="179.0" prefHeight="30.0" prefWidth="243.0" promptText="Game" style="-fx-background-color: #e9f814;" />
+            <ComboBox fx:id="formRank" layoutX="498.0" layoutY="179.0" prefHeight="30.0" prefWidth="150.0" promptText="Rank" style="-fx-background-color: #e9f814;" />
+            <ComboBox fx:id="formSzie" layoutX="498.0" layoutY="258.0" prefHeight="30.0" prefWidth="150.0" promptText="Lobby Size" style="-fx-background-color: #e9f814;" />
+            <ComboBox fx:id="formMode" layoutX="201.0" layoutY="258.0" prefHeight="30.0" prefWidth="243.0" promptText="Mode" style="-fx-background-color: #e9f814;" />
          </children>
       </AnchorPane>
    </children>

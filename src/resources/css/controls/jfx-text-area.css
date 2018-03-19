@@ -17,33 +17,38 @@
  * under the License.
  */
 
-.jfx-combo-box{
+.jfx-text-area {
     -jfx-focus-color: #4059A9;
     -jfx-unfocus-color: #4d4d4d;
-    -fx-prompt-text-fill: #d3d4d6;
 }
 
-.jfx-combo-box,
-.jfx-combo-box:focused,
-.jfx-combo-box:editable,
-.jfx-combo-box:editable:focused{
+.jfx-text-area,
+.jfx-text-area:focused {
+    -fx-prompt-text-fill: #4D4D4D;
+}
+
+.jfx-text-area,
+.jfx-text-area .scroll-pane,
+.jfx-text-area:focused,
+.jfx-text-area:focused .scroll-pane{
     -fx-background-color: TRANSPARENT, TRANSPARENT, TRANSPARENT, TRANSPARENT;
-    -fx-background-radius: 3px;
-    -fx-background-insets: 0px;
 }
 
-.jfx-combo-box .combo-box-button-container{
-    -fx-background-color:TRANSPARENT;
+.jfx-text-area .content,
+.jfx-text-area:focused .content{
+    -fx-background-color:TRANSPARENT, TRANSPARENT, TRANSPARENT, TRANSPARENT;
+    -fx-padding: 0 0 0 0;
 }
 
-.jfx-combo-box:error {
+.jfx-text-area:error {
     -jfx-focus-color: #D34336;
     -jfx-unfocus-color: #D34336;
 }
 
-.jfx-combo-box > .arrow-button,
-.jfx-combo-box:editable > .arrow-button,
-.jfx-combo-box:editable:focused > .arrow-button{
-    -fx-background-color: TRANSPARENT;
+.jfx-text-area .error-label {
+    -fx-text-fill: #D34336;
 }
- .jfx-combo-box .label{ -fx-text-fill: white;}
+
+.jfx-text-area .error-icon {
+    -fx-fill: #D34336;
+}

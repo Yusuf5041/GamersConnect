@@ -35,7 +35,7 @@ public class LobbyList {
     private void readFile(){
         FileReader in = null;
         try {
-            in = new FileReader("D://Uni Work/GamersConnect/lobbylist.txt");
+            in = new FileReader("C://Users/Main/Documents/GamersConnect/lib/lobbylist.txt");
             BufferedReader br = new BufferedReader(in);
             String name, game, mode, rank, size;
             Game gameName;
@@ -43,8 +43,8 @@ public class LobbyList {
             while((name=br.readLine()) != null){
                 game=br.readLine();
                 mode=br.readLine();
-                gameName=checkGame(game, mode);
-                gMode = gameName.getGameMode();
+                gameName=checkGame(game);
+                gMode = checkMode(gameName, mode);
                 rank=br.readLine();
                 size=br.readLine();
                 int s = Integer.parseInt(size);
@@ -68,13 +68,21 @@ public class LobbyList {
         
     }
     
-    private Game checkGame(String g, String m){
+    private Game checkGame(String g){
         ArrayList<Game> gl = GameList.getInstance().getGameList();
         for (int i = 0; i < gl.size(); i++) {
             if(g.equals(gl.get(i).getGameName())) {
-                if(m.equals(gl.get(i).getGameMode().getModeName())) return gl.get(i);
+                return gl.get(i);
             }
         }
+        return null;
+    }
+    
+    public GameMode checkMode(Game g, String mode){
+        ArrayList<GameMode> m = g.getModes();
+        for (int j = 0; j < m.size(); j++) {
+                     if(mode.equals(m.get(j).getModeName())) return m.get(j);
+                }
         return null;
     }
     

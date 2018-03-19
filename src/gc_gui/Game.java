@@ -1,24 +1,37 @@
 package gc_gui;
 
+import java.io.FileReader;
 import java.util.*;
 
 public class Game {
 
-    Collection<GameMode> has;
+    ArrayList<GameMode> modes;
     private String gameName;
-    private GameMode mode;
+    //private GameMode mode;
+    private RankSystem rs;
 
-    public Game(String gameName, GameMode modeName) {
+    public Game(String gameName) {
         this.gameName = gameName;
-        this.mode = modeName;
+        this.modes = new ArrayList<>();
+        rs = new RankSystem();
+        
+    }
+
+    public RankSystem getRankSystem() {
+        
+        return this.rs;
+    }
+    
+    public ArrayList<GameMode> getModes(){
+        return this.modes;
+    }
+    
+    public void addMode(int size, String name){
+        modes.add(new GameMode(size, name));
     }
 
     public String getGameName() {
-        return this.gameName;
+        return gameName;
     }
     
-    public GameMode getGameMode(){
-        return this.mode;
-    }
-
 }

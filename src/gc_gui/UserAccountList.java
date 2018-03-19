@@ -38,7 +38,7 @@ public class UserAccountList {
     }
 
     private void readFile() throws FileNotFoundException, IOException {
-        FileReader in = new FileReader("D://Uni Work/GamersConnect/userlist.txt");
+        FileReader in = new FileReader("C://Users/Main/Documents/GamersConnect/lib/userlist.txt");
         BufferedReader br = new BufferedReader(in);
         String line;
         while((line=br.readLine()) != null){

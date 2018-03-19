@@ -21,6 +21,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
@@ -44,13 +46,16 @@ public class FXMLDocumentController implements Callback, Initializable {
     private AnchorPane gc_login, gc_main, gc_register, gc_guest_search, gc_create_form;
 
     @FXML
-    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton;
+    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton, createLobbyButton;
 
+    @FXML
+    private Button signupButton2;
+    
     @FXML
     private JFXTextField usernameField, passwordField, newUsernameField, newPasswordField, newDiscordField, searchField, formLobbyTitle;
-
+    
     @FXML
-    private JFXComboBox gameBox, formGame, formRank, formSize, formMode;
+    private ComboBox<String> formGame, formRank, formSize, formMode;
 
     @FXML
     private TextArea suggestedUsersArea;
@@ -82,7 +87,7 @@ public class FXMLDocumentController implements Callback, Initializable {
 
     @FXML
     private void handleSignupAction(ActionEvent event) {
-        if (event.getTarget() == signupButton) {
+        if (event.getTarget() == signupButton || event.getTarget() == signupButton2) {
             gc_login.setVisible(false);
             gc_register.setVisible(true);
         }
@@ -157,15 +162,17 @@ public class FXMLDocumentController implements Callback, Initializable {
             }
         }
     }
-    
+
     @FXML
     private void handleCreateButton(ActionEvent event) {
         if (event.getTarget() == createButton) {
-            gc_login.setVisible(false);
+            gc_main.setVisible(false);
             gc_create_form.setVisible(true);
         }
     }
 
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -183,13 +190,22 @@ public class FXMLDocumentController implements Callback, Initializable {
         modeCol.setCellValueFactory(new Callback<CellDataFeatures<Lobby, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(CellDataFeatures<Lobby, String> p) {
-                return new SimpleStringProperty(p.getValue().getLobbyGame().getGameMode().getModeName());
+                return new SimpleStringProperty(p.getValue().getLobby().getLobbyMode().getModeName());
             }
         });
         rankCol.setCellValueFactory(new PropertyValueFactory<>("lobbyRank"));
         sizeCol.setCellValueFactory(new PropertyValueFactory<>("size"));
 
         lobbyTable.setItems(data);
+
+        ObservableList<String> gameOptions = FXCollections.observableArrayList(
+                        "Overwatch",
+                        "CSGO",
+                        "League of Legends"
+                );
+        
+        formGame.setItems(gameOptions);
+        formRank.setItems(gameOptions);
     }
 
     @Override
