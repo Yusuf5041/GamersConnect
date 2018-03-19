@@ -2,5 +2,5 @@ Overwatch
 Competitive 6 QuickPlay 6 Arcade 4
 Bronze Silver Gold Platinum Master
 CSGO
-QuickMatch 4 Ranked 4
+QuickMatch 6 Ranked 4
 Prestige Elite

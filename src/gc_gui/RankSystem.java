@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class RankSystem {
 
-	private HashMap ranks;
+	private HashMap<Integer, String> ranks;
         private int rankCount = 0;
 
 	public RankSystem() {

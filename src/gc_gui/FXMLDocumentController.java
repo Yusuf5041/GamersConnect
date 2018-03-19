@@ -177,7 +177,16 @@ public class FXMLDocumentController implements Callback, Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         //gameBox.setItems();
+        addTableData();
+        addFormData();
+    }
 
+    @Override
+    public Object call(Object param) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void addTableData(){
         final ObservableList<Lobby> data = FXCollections.observableArrayList();
         data.addAll(LobbyList.getInstance().getLobbyList());
         titleCol.setCellValueFactory(new PropertyValueFactory<>("lobbyTitle"));
@@ -197,20 +206,72 @@ public class FXMLDocumentController implements Callback, Initializable {
         sizeCol.setCellValueFactory(new PropertyValueFactory<>("size"));
 
         lobbyTable.setItems(data);
-
-        ObservableList<String> gameOptions = FXCollections.observableArrayList(
+    }
+    
+    @FXML
+    private void addFormData(){
+         ObservableList<String> gameOptions = FXCollections.observableArrayList(
                         "Overwatch",
-                        "CSGO",
-                        "League of Legends"
+                        "CSGO"
                 );
         
         formGame.setItems(gameOptions);
-        formRank.setItems(gameOptions);
+        
+        
+        formRank.getItems().add("Any");
+        formMode.getItems().add("Any");
     }
-
-    @Override
-    public Object call(Object param) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    @FXML
+    private void updateFormData(){
+        String game = formGame.getValue();
+        formRank.getItems().clear();
+        formMode.getItems().clear();
+        
+        ArrayList<Game> gl = GameList.getInstance().getGameList();
+        ArrayList<GameMode> gm = null; 
+        RankSystem temp = null;
+        for (int i = 0; i < gl.size(); i++) {
+            if(game.equals(gl.get(i).getGameName())){ 
+                //fill rank combo box
+                temp = gl.get(i).getRankSystem();
+                formRank.setValue("Any");
+                for (Object val : temp.getRanks().values()) {
+                    formRank.getItems().add((String)val);
+                }
+                formRank.setVisibleRowCount(temp.getRanks().values().size());
+                //fill mode combo box
+                gm = gl.get(i).getModes();
+                for (int j = 0; j < gm.size(); j++) {
+                    formMode.getItems().add(gm.get(j).getModeName());
+                }
+                formMode.setVisibleRowCount(gm.size());
+            }
+        }
+               
     }
-
+    
+    @FXML
+    private void updateSizeList(){
+        String game = formGame.getValue();
+        String mode = formMode.getValue();
+        formSize.getItems().clear();
+       
+        ArrayList<Game> gl = GameList.getInstance().getGameList();
+        ArrayList<GameMode> gm = null; 
+        for (int i = 0; i < gl.size(); i++) {
+            if(game.equals(gl.get(i).getGameName())){ 
+                gm = gl.get(i).getModes();
+                for (int j = 0; j < gm.size(); j++) {
+                    if(gm.get(j).getModeName().equals(mode)){
+                        for (int k = 1; k <= gm.get(j).getTeamLimit(); k++) {
+                            formSize.getItems().add(k+"");
+                        }
+                        formSize.setVisibleRowCount(gm.get(j).getTeamLimit());
+                    }
+                }
+            }
+        }
+            
+    }
 }
