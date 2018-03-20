@@ -23,6 +23,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
@@ -35,6 +36,8 @@ import javafx.util.Callback;
 import javax.swing.JOptionPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 
 /**
  *
@@ -46,17 +49,19 @@ public class FXMLDocumentController implements Callback, Initializable {
     private AnchorPane gc_login, gc_main, gc_register, gc_guest_search, gc_create_form, gc_profile;
 
     @FXML
-    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton, createLobbyButton, saveProfileButton, addGameButton, addButton, createBack, addBack;
+    private GridPane game_details;
+    @FXML
+    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton, createLobbyButton, saveProfileButton, addGameButton, addButton, createBack, addBack, searchUserButton;
 
     @FXML
     private Button signupButton2;
-    
+
     @FXML
-    private JFXTextField usernameField, passwordField, newUsernameField, newPasswordField, newDiscordField, searchField, formLobbyTitle;
-    
+    private JFXTextField usernameField, passwordField, newUsernameField, newPasswordField, newDiscordField, guestSearchField, formLobbyTitle, searchField;
+
     @FXML
-    private TextField profileUsernameField, profileDiscordField, gameIdField; 
-            
+    private TextField profileUsernameField, profileDiscordField, gameIdField;
+
     @FXML
     private ComboBox<String> formGame, formRank, formSize, formMode;
 
@@ -67,14 +72,19 @@ public class FXMLDocumentController implements Callback, Initializable {
     private TableView<Lobby> lobbyTable;
 
     @FXML
-    private TableColumn titleCol, gameCol, modeCol, rankCol, sizeCol;
+    private TableColumn titleCol, gameCol, modeCol, rankCol, sizeCol, idColumn;
 
     @FXML
     private Label addGameLabel, createLobbyLabel;
-    
+
     @FXML
     private JFXTabPane tabPane;
-    
+
+    @FXML
+    private Tab hostLobbies;
+
+    private Player user;
+
     @FXML
     private void handleLoginAction(ActionEvent event) throws IOException {
         if (event.getTarget() == loginButton) {
@@ -84,6 +94,7 @@ public class FXMLDocumentController implements Callback, Initializable {
                     if (users.get(i).getPassword().equals(passwordField.getText())) {
                         gc_login.setVisible(false);
                         gc_main.setVisible(true);
+                        user = users.get(i);
                     } else {
                         JOptionPane.showMessageDialog(null, "Wrong Password");
                         break;
@@ -108,12 +119,11 @@ public class FXMLDocumentController implements Callback, Initializable {
             gc_login.setVisible(true);
             gc_register.setVisible(false);
             gc_guest_search.setVisible(false);
-        }
-        else if(event.getTarget() == createBack){
+        } else if (event.getTarget() == createBack) {
             gc_create_form.setVisible(false);
             gc_main.setVisible(true);
         }
-        
+
     }
 
     @FXML
@@ -129,7 +139,8 @@ public class FXMLDocumentController implements Callback, Initializable {
                     }
                 }
 
-                new Register(newUsernameField.getText(), newPasswordField.getText(), newDiscordField.getText());
+                Register register = new Register(newUsernameField.getText(), newPasswordField.getText(), newDiscordField.getText());
+                user = register.getNewPlayer();
                 gc_register.setVisible(false);
                 gc_main.setVisible(true);
             } catch (IOException ex) {
@@ -185,38 +196,102 @@ public class FXMLDocumentController implements Callback, Initializable {
             //for lobby
             createLobbyLabel.setVisible(true);
             addGameLabel.setVisible(false);
-            
+
             formLobbyTitle.setVisible(true);
             gameIdField.setVisible(false);
-            
+
             formMode.setVisible(true);
             formSize.setVisible(true);
-            
+
             createLobbyButton.setVisible(true);
             addButton.setVisible(false);
 
-            
-            
-        }else if (event.getTarget() == addGameButton) {
+        } else if (event.getTarget() == addGameButton) {
             gc_main.setVisible(false);
             gc_create_form.setVisible(true);
             //for profile
             createLobbyLabel.setVisible(false);
             addGameLabel.setVisible(true);
-            
+
             formLobbyTitle.setVisible(false);
             gameIdField.setVisible(true);
-            
+
             formMode.setVisible(false);
             formSize.setVisible(false);
-            
+
             createLobbyButton.setVisible(false);
             addButton.setVisible(true);
         }
     }
 
-    
-    
+    @FXML
+    public void handleCreateLobbyAction(ActionEvent event) {
+        
+        String title = formLobbyTitle.getText();
+        String game = formGame.getValue();
+        String mode = formMode.getValue();
+        String rank = formRank.getValue();
+        String size = formSize.getValue();
+
+        Game g = LobbyList.checkGame(game);
+        GameMode gm = LobbyList.checkMode(g, mode);
+        
+        user.createLobby(title, g, gm, rank, Integer.parseInt(size));
+        
+        gc_create_form.setVisible(false);
+        gc_main.setVisible(true);
+        addTableData();
+    }
+
+    @FXML
+    private void handleJoinButton(ActionEvent event) {
+        Lobby l = lobbyTable.getSelectionModel().getSelectedItem();
+        boolean flag = true;
+        for (int i = 0; i < l.getPlayerList().size(); i++) {
+            if (l.getPlayerList().get(i) == user) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            user.joinLobby(l);
+            JOptionPane.showMessageDialog(null, "Joined Lobby!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Already in lobby!");
+        }
+        
+    }
+
+    @FXML
+    private void handleSearchAction(MouseEvent event) throws IOException {
+        if (event.getTarget() == searchUserButton) {
+            ArrayList<Player> playerList = UserAccountList.getInstance().getUserList();
+            for (int i = 0; i < playerList.size(); i++) {
+                if (searchField.getText().equals(playerList.get(i).getUsername())) {
+                    updateProfile(playerList.get(i));
+                    break;
+                }
+            }
+        } else {
+            updateProfile(user);
+        }
+        
+    }
+
+    @FXML
+    private void updateProfile(Player p) throws IOException {
+
+        profileUsernameField.setText(p.getUsername());
+        profileDiscordField.setText(p.getDiscordID());
+        /*for (int j = 1; j <= p.getGameDetails().size(); j++) {
+            for (int k = 0; k < 3; k++) {
+                game_details.add(new Label("Label "+k+" "+j), k, j);
+            }
+
+        }*/
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -230,7 +305,7 @@ public class FXMLDocumentController implements Callback, Initializable {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void addTableData(){
+    private void addTableData() {
         final ObservableList<Lobby> data = FXCollections.observableArrayList();
         data.addAll(LobbyList.getInstance().getLobbyList());
         titleCol.setCellValueFactory(new PropertyValueFactory<>("lobbyTitle"));
@@ -251,37 +326,36 @@ public class FXMLDocumentController implements Callback, Initializable {
 
         lobbyTable.setItems(data);
     }
-    
+
     @FXML
-    private void addFormData(){
-         ObservableList<String> gameOptions = FXCollections.observableArrayList(
-                        "Overwatch",
-                        "CSGO"
-                );
-        
+    private void addFormData() {
+        ObservableList<String> gameOptions = FXCollections.observableArrayList(
+                "Overwatch",
+                "CSGO"
+        );
+
         formGame.setItems(gameOptions);
-        
-        
+
         formRank.getItems().add("Any");
         formMode.getItems().add("Any");
     }
-    
+
     @FXML
-    private void updateFormData(){
+    private void updateFormData() {
         String game = formGame.getValue();
         formRank.getItems().clear();
         formMode.getItems().clear();
-        
+
         ArrayList<Game> gl = GameList.getInstance().getGameList();
-        ArrayList<GameMode> gm = null; 
+        ArrayList<GameMode> gm = null;
         RankSystem temp = null;
         for (int i = 0; i < gl.size(); i++) {
-            if(game.equals(gl.get(i).getGameName())){ 
+            if (game.equals(gl.get(i).getGameName())) {
                 //fill rank combo box
                 temp = gl.get(i).getRankSystem();
                 formRank.setValue("Any");
                 for (Object val : temp.getRanks().values()) {
-                    formRank.getItems().add((String)val);
+                    formRank.getItems().add((String) val);
                 }
                 formRank.setVisibleRowCount(temp.getRanks().values().size());
                 //fill mode combo box
@@ -292,30 +366,33 @@ public class FXMLDocumentController implements Callback, Initializable {
                 formMode.setVisibleRowCount(gm.size());
             }
         }
-               
+
     }
-    
+
     @FXML
-    private void updateSizeList(){
+    private void updateSizeList() {
         String game = formGame.getValue();
         String mode = formMode.getValue();
         formSize.getItems().clear();
-       
+
         ArrayList<Game> gl = GameList.getInstance().getGameList();
-        ArrayList<GameMode> gm = null; 
+        ArrayList<GameMode> gm = null;
         for (int i = 0; i < gl.size(); i++) {
-            if(game.equals(gl.get(i).getGameName())){ 
+            if (game.equals(gl.get(i).getGameName())) {
                 gm = gl.get(i).getModes();
                 for (int j = 0; j < gm.size(); j++) {
-                    if(gm.get(j).getModeName().equals(mode)){
+                    if (gm.get(j).getModeName().equals(mode)) {
                         for (int k = 1; k <= gm.get(j).getTeamLimit(); k++) {
-                            formSize.getItems().add(k+"");
+                            formSize.getItems().add(k + "");
                         }
                         formSize.setVisibleRowCount(gm.get(j).getTeamLimit());
                     }
                 }
             }
         }
-            
+
     }
+
+
+    
 }

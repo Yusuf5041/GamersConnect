@@ -14,10 +14,12 @@ public class LobbyList {
     private static LobbyList instance;
     private ArrayList<Lobby> lobbyList;
     private ArrayList<Lobby> filteredList;
+    private ArrayList<Lobby> fullList;
 
     protected LobbyList() {
         this.lobbyList = new ArrayList<>();
         this.filteredList = new ArrayList<>();
+        this.fullList = new ArrayList<>();
         readFile();
     }
 
@@ -30,6 +32,10 @@ public class LobbyList {
 
     public ArrayList getLobbyList() {
         return this.lobbyList;
+    }
+
+    public ArrayList<Lobby> getFullList() {
+        return fullList;
     }
 
     private void readFile(){
@@ -68,7 +74,7 @@ public class LobbyList {
         
     }
     
-    private Game checkGame(String g){
+    public static Game checkGame(String g){
         ArrayList<Game> gl = GameList.getInstance().getGameList();
         for (int i = 0; i < gl.size(); i++) {
             if(g.equals(gl.get(i).getGameName())) {
@@ -78,7 +84,7 @@ public class LobbyList {
         return null;
     }
     
-    public GameMode checkMode(Game g, String mode){
+    public static GameMode checkMode(Game g, String mode){
         ArrayList<GameMode> m = g.getModes();
         for (int j = 0; j < m.size(); j++) {
                      if(mode.equals(m.get(j).getModeName())) return m.get(j);
@@ -86,13 +92,6 @@ public class LobbyList {
         return null;
     }
     
-    private Game checkMode(String s){
-        ArrayList<Game> gl = GameList.getInstance().getGameList();
-        for (int i = 0; i < gl.size(); i++) {
-            if(s.equals(gl.get(i).getGameName())) return gl.get(i);
-        }
-        return null;
-    }
     /**
      *
      * @param lobbyName

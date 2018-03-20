@@ -6,9 +6,9 @@ public class Player {
 
 	private String username;
 	private String password;
-	//private ArrayList<UserGame> gameDetails;
+	private ArrayList<UserGame> gameDetails;
 	private String discordID;
-
+        private Role role;
 	/**
 	 * 
 	 * @param username
@@ -16,11 +16,13 @@ public class Player {
 	 * @param gameDetails
 	 * @param discordID
 	 */
- 	public Player(String username, String password, /*ArrayList<UserGame> gameDetails,*/ String discordID) {
+ 	public Player(String username, String password, String discordID) {
 		// TODO - implement Player.Player
 		this.username = username;
                 this.password = password;
                 this.discordID = discordID;
+                this.gameDetails = new ArrayList<>();
+                this.role = new UserRole();
 	}
 
 	/**
@@ -60,6 +62,13 @@ public class Player {
 		return this.discordID;
 	}
 
+        public Role getRole(){
+            return this.role;
+        }
+        
+        public void resetRole(int n){
+            role = new UserRole();
+        }
 	/**
 	 * 
 	 * @param gName
@@ -67,10 +76,10 @@ public class Player {
 	 * @param userRank
 	 */
 	
-        /*public void addGameDetails(Game gName, String gamerID, String userRank) {
+        public void addGameDetails(Game gName, String gamerID, String userRank) {
 		// TODO - implement Player.addGameDetails
-		throw new UnsupportedOperationException();
-	}*/
+		gameDetails.add(new UserGame(gName, gamerID, userRank));
+	}
 
 	/**
 	 * 
@@ -94,12 +103,12 @@ public class Player {
 		throw new UnsupportedOperationException();
 	}
         */
-        /*
+        
 	public ArrayList getGameDetails() {
 		// TODO - implement Player.getGameDetails
-		throw new UnsupportedOperationException();
+		return gameDetails;
 	}
-        */
+        
 
 	/**
 	 * 
@@ -109,21 +118,26 @@ public class Player {
 		// TODO - implement Player.deleteAccount
 		throw new UnsupportedOperationException();
 	}
-        /*
-	public HostRole createLobby() {
+        
+	public void createLobby(String title, Game game, GameMode gmode, String rank, int size) {
 		// TODO - implement Player.createLobby
-		throw new UnsupportedOperationException();
+		ArrayList<Lobby> list = LobbyList.getInstance().getLobbyList();
+                list.add(new Lobby(title, game, gmode, rank, size));
+                if(role instanceof UserRole){
+                    role = new HostRole();
+                }
+                list.get(list.size()-1).addPlayer(this);
 	}
-        */
+        
 	/**
 	 * 
 	 * @param lobbyName
 	 */
-        /*
+        
 	public void joinLobby(Lobby lobbyName) {
 		// TODO - implement Player.joinLobby
-		throw new UnsupportedOperationException();
+		lobbyName.addPlayer(this);
 	}
-           */
+           
 
 }
