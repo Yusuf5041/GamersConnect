@@ -18,9 +18,11 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
@@ -38,6 +40,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Paint;
 
 /**
  *
@@ -51,22 +54,22 @@ public class FXMLDocumentController implements Callback, Initializable {
     @FXML
     private GridPane game_details;
     @FXML
-    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton, createLobbyButton, saveProfileButton, addGameButton, addButton, createBack, addBack, searchUserButton;
+    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton, createLobbyButton, saveProfileButton, addGameButton, addButton, createBack, addBack, searchUserButton, profileBack, guestSearchButton, guestBack;
 
     @FXML
-    private Button signupButton2;
+    private Button signupButton2, viewProfileButton;
 
     @FXML
-    private JFXTextField usernameField, passwordField, newUsernameField, newPasswordField, newDiscordField, guestSearchField, formLobbyTitle, searchField;
+    private JFXTextField usernameField, passwordField, newUsernameField, newPasswordField, newDiscordField, guestSearchField, formLobbyTitle, searchField, userSearchField;
 
     @FXML
-    private TextField profileUsernameField, profileDiscordField, gameIdField;
+    private TextField profileUsernameField, profileDiscordField, formGameID, displayUserField;
 
     @FXML
     private ComboBox<String> formGame, formRank, formSize, formMode;
 
     @FXML
-    private TextArea suggestedUsersArea;
+    private TextArea suggestedUsersArea, suggestedUsersArea2;
 
     @FXML
     private TableView<Lobby> lobbyTable;
@@ -95,6 +98,11 @@ public class FXMLDocumentController implements Callback, Initializable {
                         gc_login.setVisible(false);
                         gc_main.setVisible(true);
                         user = users.get(i);
+                        displayUserField.setText(user.getUsername());
+                        if (user.getRole() instanceof UserRole) {
+                            hostLobbies.setDisable(true);
+
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Wrong Password");
                         break;
@@ -115,12 +123,16 @@ public class FXMLDocumentController implements Callback, Initializable {
 
     @FXML
     private void handleBackAction(ActionEvent event) {
-        if (event.getTarget() == backButton || event.getTarget() == backButton2) {
+        if (event.getTarget() == backButton || event.getTarget() == backButton2 || event.getTarget() == guestBack) {
             gc_login.setVisible(true);
             gc_register.setVisible(false);
             gc_guest_search.setVisible(false);
+            gc_profile.setVisible(false);
         } else if (event.getTarget() == createBack) {
             gc_create_form.setVisible(false);
+            gc_main.setVisible(true);
+        } else if (event.getTarget() == profileBack) {
+            gc_profile.setVisible(false);
             gc_main.setVisible(true);
         }
 
@@ -155,15 +167,17 @@ public class FXMLDocumentController implements Callback, Initializable {
         if (event.getTarget() == guestButton) {
             gc_login.setVisible(false);
             gc_guest_search.setVisible(true);
+
         }
     }
 
     @FXML
     private void handleAutoComplete(KeyEvent event) {
+        ArrayList<Player> users;
+        int count = 0;
+        String text = "";
         if (event.getTarget() == searchField) {
-            ArrayList<Player> users;
-            int count = 0;
-            String text = "";
+
             try {
                 users = UserAccountList.getInstance().getUserList();
                 for (int i = 0; i < users.size(); i++) {
@@ -185,6 +199,28 @@ public class FXMLDocumentController implements Callback, Initializable {
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else if (event.getTarget() == userSearchField) {
+            try {
+                users = UserAccountList.getInstance().getUserList();
+                for (int i = 0; i < users.size(); i++) {
+                    if (!(userSearchField.getText().length() < 1)) {
+                        if (users.get(i).getUsername().startsWith(userSearchField.getText())) {
+                            count++;
+                            text += "\n" + users.get(i).getUsername();
+                        }
+                    }
+
+                }
+                if (count > 0) {
+                    suggestedUsersArea2.setVisible(true);
+                    suggestedUsersArea2.setText(text);
+                } else {
+                    suggestedUsersArea2.setVisible(false);
+                    suggestedUsersArea2.setText("");
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -198,7 +234,7 @@ public class FXMLDocumentController implements Callback, Initializable {
             addGameLabel.setVisible(false);
 
             formLobbyTitle.setVisible(true);
-            gameIdField.setVisible(false);
+            formGameID.setVisible(false);
 
             formMode.setVisible(true);
             formSize.setVisible(true);
@@ -207,14 +243,14 @@ public class FXMLDocumentController implements Callback, Initializable {
             addButton.setVisible(false);
 
         } else if (event.getTarget() == addGameButton) {
-            gc_main.setVisible(false);
+            gc_profile.setVisible(false);
             gc_create_form.setVisible(true);
             //for profile
             createLobbyLabel.setVisible(false);
             addGameLabel.setVisible(true);
 
             formLobbyTitle.setVisible(false);
-            gameIdField.setVisible(true);
+            formGameID.setVisible(true);
 
             formMode.setVisible(false);
             formSize.setVisible(false);
@@ -226,7 +262,7 @@ public class FXMLDocumentController implements Callback, Initializable {
 
     @FXML
     public void handleCreateLobbyAction(ActionEvent event) {
-        
+
         String title = formLobbyTitle.getText();
         String game = formGame.getValue();
         String mode = formMode.getValue();
@@ -235,12 +271,28 @@ public class FXMLDocumentController implements Callback, Initializable {
 
         Game g = LobbyList.checkGame(game);
         GameMode gm = LobbyList.checkMode(g, mode);
-        
+
         user.createLobby(title, g, gm, rank, Integer.parseInt(size));
-        
+        hostLobbies.setDisable(false);
         gc_create_form.setVisible(false);
         gc_main.setVisible(true);
-        addTableData();
+        addTableData(LobbyList.getInstance().getLobbyList());
+    }
+
+    @FXML
+    private void handleAddGameAction(ActionEvent event) throws IOException {
+        Game g = LobbyList.checkGame(formGame.getValue());
+        String rank = formRank.getValue();
+        String gID = formGameID.getText();
+        if (user.getGameDetails().size() < 3) {
+            user.addGameDetails(g, gID, rank);
+            updateProfile(user);
+        } else {
+            JOptionPane.showMessageDialog(null, "Maximum number of games reached. Cannot add anymore!");
+        }
+
+        gc_create_form.setVisible(false);
+        gc_profile.setVisible(true);
     }
 
     @FXML
@@ -259,45 +311,83 @@ public class FXMLDocumentController implements Callback, Initializable {
         } else {
             JOptionPane.showMessageDialog(null, "Already in lobby!");
         }
-        
+
     }
 
     @FXML
-    private void handleSearchAction(MouseEvent event) throws IOException {
+    private void handleSearchButton(ActionEvent event) throws IOException {
+        ArrayList<Player> playerList = UserAccountList.getInstance().getUserList();
         if (event.getTarget() == searchUserButton) {
-            ArrayList<Player> playerList = UserAccountList.getInstance().getUserList();
+
             for (int i = 0; i < playerList.size(); i++) {
-                if (searchField.getText().equals(playerList.get(i).getUsername())) {
+                if (userSearchField.getText().equals(playerList.get(i).getUsername())) {
                     updateProfile(playerList.get(i));
+                    gc_main.setVisible(false);
+                    gc_profile.setVisible(true);
+                    profileBack.setVisible(true);
+                    guestBack.setVisible(false);
+                    addGameButton.setVisible(false);
+                    saveProfileButton.setVisible(false);
                     break;
                 }
             }
-        } else {
-            updateProfile(user);
+        } else if (event.getTarget() == guestSearchButton) {
+            for (int i = 0; i < playerList.size(); i++) {
+                if (searchField.getText().equals(playerList.get(i).getUsername())) {
+                    updateProfile(playerList.get(i));
+                    gc_guest_search.setVisible(false);
+                    gc_profile.setVisible(true);
+                    profileBack.setVisible(false);
+                    guestBack.setVisible(true);
+                    addGameButton.setVisible(false);
+                    saveProfileButton.setVisible(false);
+                    break;
+                }
+            }
         }
-        
+
+    }
+
+    @FXML
+    private void handleViewProfileAction(ActionEvent event) throws IOException {
+        gc_main.setVisible(false);
+        gc_profile.setVisible(true);
+        profileBack.setVisible(true);
+        guestBack.setVisible(false);
+        addGameButton.setVisible(true);
+        saveProfileButton.setVisible(true);
+        updateProfile(user);
     }
 
     @FXML
     private void updateProfile(Player p) throws IOException {
+        Paint paint = Paint.valueOf("#e9f814");
 
         profileUsernameField.setText(p.getUsername());
         profileDiscordField.setText(p.getDiscordID());
-        /*for (int j = 1; j <= p.getGameDetails().size(); j++) {
-            for (int k = 0; k < 3; k++) {
-                game_details.add(new Label("Label "+k+" "+j), k, j);
+        for (int j = 0; j < p.getGameDetails().size(); j++) {
+
+            game_details.add(new Label(p.getGameDetails().get(j).getGame().getGameName()), 0, j + 1);
+            game_details.add(new Label(p.getGameDetails().get(j).getGamerID()), 1, j + 1);
+            game_details.add(new Label(p.getGameDetails().get(j).getUserRank()), 2, j + 1);
+
+        }
+        ObservableList<Node> ol = game_details.getChildren();
+        for (Node node : ol) {
+            if (node instanceof Label) {
+                Label l = (Label) node;
+                l.setTextFill(paint);
             }
-
-        }*/
-
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         //gameBox.setItems();
-        addTableData();
+        addTableData(LobbyList.getInstance().getLobbyList());
         addFormData();
+
     }
 
     @Override
@@ -305,9 +395,9 @@ public class FXMLDocumentController implements Callback, Initializable {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void addTableData() {
+    private void addTableData(ArrayList<Lobby> lob) {
         final ObservableList<Lobby> data = FXCollections.observableArrayList();
-        data.addAll(LobbyList.getInstance().getLobbyList());
+        data.addAll(lob);
         titleCol.setCellValueFactory(new PropertyValueFactory<>("lobbyTitle"));
         gameCol.setCellValueFactory(new Callback<CellDataFeatures<Lobby, String>, ObservableValue<String>>() {
             @Override
@@ -338,6 +428,7 @@ public class FXMLDocumentController implements Callback, Initializable {
 
         formRank.getItems().add("Any");
         formMode.getItems().add("Any");
+
     }
 
     @FXML
@@ -393,6 +484,4 @@ public class FXMLDocumentController implements Callback, Initializable {
 
     }
 
-
-    
 }

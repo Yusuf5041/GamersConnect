@@ -3,16 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/UserGame.java</file>
             <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/FXMLDocumentController.java</file>
+            <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/RankSystem.java</file>
+            <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/UserRole.java</file>
+            <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/UserAccountList.java</file>
+            <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/Player.java</file>
+            <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/Register.java</file>
             <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/GameMode.java</file>
             <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/Lobby.java</file>
-            <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/RankSystem.java</file>
             <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/GameList.java</file>
-            <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/UserAccountList.java</file>
             <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/Game.java</file>
             <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/LobbyList.java</file>
             <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/FXMLDocument.fxml</file>
-            <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/Player.java</file>
+            <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/HostRole.java</file>
+            <file>file:/C:/Users/Main/Documents/GamersConnect/src/gc_gui/Role.java</file>
         </group>
     </open-files>
 </project-private>

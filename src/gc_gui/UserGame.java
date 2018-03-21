@@ -11,14 +11,26 @@ package gc_gui;
  */
 public class UserGame {
 
-    private Game game;
-    private String gamerID;
-    private String userRank;
+    private final Game game;
+    private final String gamerID;
+    private final String userRank;
 
     public UserGame(Game game, String gamerID, String userRank) {
         this.game = game;
         this.gamerID = gamerID;
         this.userRank = userRank;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public String getGamerID() {
+        return gamerID;
+    }
+
+    public String getUserRank() {
+        return userRank;
     }
     
     

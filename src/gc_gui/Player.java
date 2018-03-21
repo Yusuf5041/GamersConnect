@@ -21,7 +21,7 @@ public class Player {
 		this.username = username;
                 this.password = password;
                 this.discordID = discordID;
-                this.gameDetails = new ArrayList<>();
+                this.gameDetails = new ArrayList<UserGame>();
                 this.role = new UserRole();
 	}
 
@@ -78,7 +78,7 @@ public class Player {
 	
         public void addGameDetails(Game gName, String gamerID, String userRank) {
 		// TODO - implement Player.addGameDetails
-		gameDetails.add(new UserGame(gName, gamerID, userRank));
+		this.gameDetails.add(new UserGame(gName, gamerID, userRank));
 	}
 
 	/**
@@ -104,9 +104,9 @@ public class Player {
 	}
         */
         
-	public ArrayList getGameDetails() {
+	public ArrayList<UserGame> getGameDetails() {
 		// TODO - implement Player.getGameDetails
-		return gameDetails;
+		return this.gameDetails;
 	}
         
 
