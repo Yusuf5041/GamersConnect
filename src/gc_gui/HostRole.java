@@ -11,7 +11,7 @@ public class HostRole extends Role {
         userLobbies = new ArrayList<>();
     }
 
-    public ArrayList getUserLobbies() {
+    public ArrayList<Lobby> getUserLobbies() {
         // TODO - implement HostRole.getUserLobbies
         return userLobbies;
     }
@@ -31,12 +31,9 @@ public class HostRole extends Role {
      */
     public void removeUserLobby(Lobby lobbyName) {
         // TODO - implement HostRole.removeUserLobby
-        for (int i = 0; i < userLobbies.size(); i++) {
-            if(lobbyName==userLobbies.get(i)){
-                userLobbies.remove(i);
-                break;
-            }
-        }
+        userLobbies.remove(lobbyName);
+        LobbyList.getInstance().removeLobby(lobbyName);
+          
     }
 
     /**

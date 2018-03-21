@@ -62,11 +62,29 @@ public class Player {
 		return this.discordID;
 	}
 
+        public String getGamerID(Game g){
+            for (UserGame gameDetail : gameDetails) {
+                if(gameDetail.getGame()==g){
+                    return gameDetail.getGamerID();
+                }
+            }
+            return null;
+        }
+        
+        public String getRank(Game g){
+            for (UserGame gameDetail : gameDetails) {
+                if(gameDetail.getGame()==g){
+                    return gameDetail.getUserRank();
+                }
+            }
+            return null;
+        }
+        
         public Role getRole(){
             return this.role;
         }
         
-        public void resetRole(int n){
+        public void resetRole(){
             role = new UserRole();
         }
 	/**
@@ -123,10 +141,14 @@ public class Player {
 		// TODO - implement Player.createLobby
 		ArrayList<Lobby> list = LobbyList.getInstance().getLobbyList();
                 list.add(new Lobby(title, game, gmode, rank, size));
+                list.get(list.size()-1).addPlayer(this);
+                
                 if(role instanceof UserRole){
                     role = new HostRole();
                 }
-                list.get(list.size()-1).addPlayer(this);
+                HostRole hr = (HostRole) role;
+                hr.addUserLobby(list.get(list.size()-1));
+                
 	}
         
 	/**

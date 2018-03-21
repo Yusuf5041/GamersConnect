@@ -98,7 +98,23 @@ public class LobbyList {
      */
     public void removeLobby(Lobby lobbyName) {
         // TODO - implement LobbyList.removeLobby
-        throw new UnsupportedOperationException();
+        try{
+            lobbyList.remove(lobbyName);
+        }catch(NullPointerException e){
+
+        }
+        try{
+            fullList.remove(lobbyName);
+        } catch(NullPointerException e){
+            
+        }
+        try{
+            filteredList.remove(lobbyName);
+        }catch(NullPointerException e){
+            
+        }
+        
+            
     }
 
     public Integer findLobbySize() {
