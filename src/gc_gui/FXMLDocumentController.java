@@ -58,7 +58,7 @@ public class FXMLDocumentController implements Callback, Initializable {
     private GridPane game_details;
     @FXML
     private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton, createLobbyButton, saveProfileButton, addGameButton, addButton, createBack, addBack,
-            searchUserButton, profileBack, guestSearchButton, guestBack, confirmLobbyButton, removePlayerButton, viewButton, deleteButton;
+            searchUserButton, profileBack, guestSearchButton, guestBack, confirmButton, removePlayerButton, viewButton, deleteButton, viewButton2, lobbyViewBack;
 
     @FXML
     private Button signupButton2, viewProfileButton;
@@ -145,6 +145,9 @@ public class FXMLDocumentController implements Callback, Initializable {
             gc_main.setVisible(true);
         } else if (event.getTarget() == profileBack) {
             gc_profile.setVisible(false);
+            gc_main.setVisible(true);
+        } else if(event.getTarget() == lobbyViewBack){
+            gc_lobby.setVisible(false);
             gc_main.setVisible(true);
         }
 
@@ -403,11 +406,24 @@ public class FXMLDocumentController implements Callback, Initializable {
 
     @FXML
     private void handleViewLobbyAction(ActionEvent event) {
-        Lobby l = myLobbyTable.getSelectionModel().getSelectedItem();
-        lobbyTitleField.setText(l.getLobbyTitle());
-        addPlayerTableData(lobbyPlayerTable, l);
-        gc_lobby.setVisible(true);
-        gc_main.setVisible(false);
+        if (event.getTarget() == viewButton) {
+            Lobby l = myLobbyTable.getSelectionModel().getSelectedItem();
+            lobbyTitleField.setText(l.getLobbyTitle());
+            addPlayerTableData(lobbyPlayerTable, l);
+            gc_lobby.setVisible(true);
+            removePlayerButton.setVisible(true);
+            confirmButton.setVisible(true);
+            gc_main.setVisible(false);
+        } else if(event.getTarget() == viewButton2){
+            Lobby l = lobbyTable.getSelectionModel().getSelectedItem();
+            lobbyTitleField.setText(l.getLobbyTitle());
+            addPlayerTableData(lobbyPlayerTable, l);
+            gc_lobby.setVisible(true);
+            removePlayerButton.setVisible(false);
+            confirmButton.setVisible(false);
+            gc_main.setVisible(false);
+        }
+
     }
 
     @FXML

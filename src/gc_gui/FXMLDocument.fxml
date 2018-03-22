@@ -22,22 +22,17 @@
 <AnchorPane id="AnchorPane" maxHeight="545.0" maxWidth="848.0" minHeight="545.0" minWidth="848.0" prefHeight="545.0" prefWidth="848.0" style="-fx-background-color: #2D3447;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gc_gui.FXMLDocumentController">
     
    <children>
-      <AnchorPane fx:id="gc_login" prefHeight="545.0" prefWidth="848.0" style="-fx-background-color: #2D3447;" visible="false">
+      <AnchorPane fx:id="gc_login" prefHeight="545.0" prefWidth="848.0" style="-fx-background-color: #2D3447;">
          <children>
             <Label layoutX="679.0" layoutY="46.0" text="Not a member?" textFill="#d3d4d6" />
             <ImageView fitHeight="59.0" fitWidth="58.0" layoutX="236.0" layoutY="252.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../Downloads/Lock-48.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="152.0" fitWidth="243.0" layoutX="303.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../Downloads/LogoMakr_6GegbB.png" />
+                  <Image url="@../../lib/Lock-48.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="59.0" fitWidth="58.0" layoutX="236.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../Downloads/User-Profile-48.png" />
+                  <Image url="@../../lib/User-Profile-48.png" />
                </image>
             </ImageView>
             <JFXButton fx:id="loginButton" layoutX="387.0" layoutY="385.0" onAction="#handleLoginAction" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #e9f814;" text="Login" textFill="#2c2c2c">
@@ -75,7 +70,7 @@
       </AnchorPane>
       <AnchorPane fx:id="gc_main" prefHeight="545.0" prefWidth="848.0" style="-fx-background-color: #2D3447;" visible="false">
          <children>
-            <JFXTabPane fx:id="tabPane" prefHeight="545.0" prefWidth="848.0" style="-fx-background-color: #2D3447;">
+            <JFXTabPane fx:id="tabPane" prefHeight="545.0" prefWidth="848.0" style="-fx-background-color: #2D3447;" stylesheets="@../resources/css/controls/jfx-tab-pane.css">
                <tabs>
                   <Tab style="-fx-background-color: #2D3447;" text="Lobbies">
                     <content>
@@ -91,8 +86,8 @@
                                     <TableColumn fx:id="sizeCol" prefWidth="211.0" text="Size" />
                                 </columns>
                               </TableView>
-                              <JFXButton fx:id="createButton" layoutX="306.0" layoutY="453.0" onAction="#handleCreationButton" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: #e9f814;" text="Create" textFill="#2c2c2c" />
-                              <JFXButton fx:id="joinButton" layoutX="456.0" layoutY="453.0" onAction="#handleJoinButton" prefHeight="25.0" prefWidth="49.0" style="-fx-background-color: #e9f814;" text="Join" textFill="#2c2c2c" />
+                              <JFXButton fx:id="createButton" layoutX="604.0" layoutY="453.0" onAction="#handleCreationButton" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: #e9f814;" text="Create" textFill="#2c2c2c" />
+                              <JFXButton fx:id="joinButton" layoutX="400.0" layoutY="453.0" onAction="#handleJoinButton" prefHeight="25.0" prefWidth="49.0" style="-fx-background-color: #e9f814;" text="Join" textFill="#2c2c2c" />
                               <ComboBox fx:id="searchGameBox" layoutX="26.0" layoutY="60.0" onAction="#updateFilterFormData" prefHeight="30.0" prefWidth="188.0" promptText="Game" style="-fx-background-color: #e9f814;" />
                               <ComboBox fx:id="searchRankBox" layoutX="401.0" layoutY="61.0" prefHeight="30.0" prefWidth="110.0" promptText="Rank" style="-fx-background-color: #e9f814;" />
                               <ComboBox fx:id="searchUniversityBox" layoutX="549.0" layoutY="60.0" prefHeight="30.0" prefWidth="168.0" promptText="University" style="-fx-background-color: #e9f814;" />
@@ -100,6 +95,7 @@
                               <JFXButton fx:id="addButton1" onAction="#handleAddGameAction" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: #2c2c2c;" text="Add" textFill="#e9f814" visible="false" />
                               <JFXButton fx:id="filterSearchButton" layoutX="738.0" layoutY="63.0" onAction="#handleFilterAction" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: #e9f814;" text="Search" textFill="#2c2c2c" />
                               <JFXButton fx:id="resetButton" layoutX="738.0" layoutY="120.0" onAction="#handleResetAction" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: #e9f814;" text="Reset" textFill="#2c2c2c" />
+                              <JFXButton fx:id="viewButton2" layoutX="185.0" layoutY="453.0" onAction="#handleViewLobbyAction" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: #e9f814;" text="View" textFill="#2c2c2c" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -169,13 +165,8 @@
             </JFXTabPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="gc_register" prefHeight="545.0" prefWidth="848.0">
+      <AnchorPane fx:id="gc_register" prefHeight="545.0" prefWidth="848.0" visible="false">
          <children>
-            <ImageView fitHeight="152.0" fitWidth="243.0" layoutX="303.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../Downloads/LogoMakr_6GegbB.png" />
-               </image>
-            </ImageView>
             <JFXTextField fx:id="newPasswordField" focusColor="#d3d4d6" layoutX="304.0" layoutY="222.0" prefHeight="25.0" prefWidth="243.0" promptText="  Password" style="-fx-text-fill: #ffffff;" unFocusColor="#b1b3b8">
                <font>
                   <Font size="14.0" />
@@ -221,11 +212,6 @@
                   <Font size="14.0" />
                </font>
             </JFXTextField>
-            <ImageView fitHeight="152.0" fitWidth="243.0" layoutX="303.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../Downloads/LogoMakr_6GegbB.png" />
-               </image>
-            </ImageView>
             <Label layoutX="424.0" layoutY="134.0" text="Connect" textFill="#e9f814">
                <font>
                   <Font name="Malgun Gothic Bold" size="25.0" />
@@ -373,6 +359,11 @@
                   <Font size="15.0" />
                </font>
             </TextField>
+            <JFXButton fx:id="lobbyViewBack" layoutX="38.0" layoutY="54.0" onAction="#handleBackAction" prefHeight="30.0" prefWidth="65.0" ripplerFill="BLACK" text="&lt; Back" textFill="#d3d4d6">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
          </children>
       </AnchorPane>
    </children>
