@@ -437,24 +437,7 @@ public class FXMLDocumentController implements Callback, Initializable {
 
     @FXML
     private void updateProfile(Player p) throws IOException {
-        Paint paint = Paint.valueOf("#e9f814");
-
-        profileUsernameField.setText(p.getUsername());
-        profileDiscordField.setText(p.getDiscordID());
-        for (int j = 0; j < p.getGameDetails().size(); j++) {
-
-            game_details.add(new Label(p.getGameDetails().get(j).getGame().getGameName()), 0, j + 1);
-            game_details.add(new Label(p.getGameDetails().get(j).getGamerID()), 1, j + 1);
-            game_details.add(new Label(p.getGameDetails().get(j).getUserRank()), 2, j + 1);
-
-        }
-        ObservableList<Node> ol = game_details.getChildren();
-        for (Node node : ol) {
-            if (node instanceof Label) {
-                Label l = (Label) node;
-                l.setTextFill(paint);
-            }
-        }
+        
     }
 
     @Override
