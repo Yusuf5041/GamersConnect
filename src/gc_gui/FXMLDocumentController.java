@@ -96,6 +96,7 @@ public class FXMLDocumentController implements Callback, Initializable {
     private Player user;
     private ArrayList<String> games;
 
+    //handles the login process once the button is pressed
     @FXML
     private void handleLoginAction(ActionEvent event) throws IOException {
         if (event.getTarget() == loginButton) {
@@ -105,11 +106,12 @@ public class FXMLDocumentController implements Callback, Initializable {
                     if (users.get(i).getPassword().equals(passwordField.getText())) {
                         gc_login.setVisible(false);
                         gc_main.setVisible(true);
-                        user = users.get(i);
+                        user = users.get(i); //assigns reference to user object 
                         displayUserField.setText(user.getUsername());
-                        if (user.getRole() instanceof HostRole) {
+                        if (user.getRole() instanceof HostRole) { //determines weather or not host lobby data neds to be displayed
                             HostRole hr = (HostRole) user.getRole();
                             addLobbyTableData(hr.getUserLobbies(), myLobbyTable);
+                            hostLobbies.setDisable(false);
                         } else {
                             hostLobbies.setDisable(true);
                         }
@@ -282,7 +284,7 @@ public class FXMLDocumentController implements Callback, Initializable {
         Game g = LobbyList.checkGame(game);
         GameMode gm = LobbyList.checkMode(g, mode);
 
-        user.createLobby(title, g, gm, rank, Integer.parseInt(size));
+        user.createLobby(title, g, gm, rank, user.getUniversity(), Integer.parseInt(size), user.getUsername());
         if (user.getRole() instanceof HostRole) {
             HostRole hr = (HostRole) user.getRole();
             addLobbyTableData(hr.getUserLobbies(), myLobbyTable);

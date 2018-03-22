@@ -62,5 +62,13 @@ public class UserAccountList {
         return;
     }
     
+    public Player findHost(String host){
+        for (Player player : userList) {
+            if(player.getUsername().equals(host)){
+                return player;
+            }
+        }
+        return null;
+    }
     
 }

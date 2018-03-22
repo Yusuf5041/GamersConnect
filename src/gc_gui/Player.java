@@ -10,6 +10,7 @@ public class Player {
     private ArrayList<UserGame> gameDetails;
     private String discordID;
     private Role role;
+    private static ArrayList<Lobby> list;
 
     /**
      *
@@ -25,6 +26,7 @@ public class Player {
         this.discordID = discordID;
         this.gameDetails = new ArrayList<UserGame>();
         this.role = new UserRole();
+        
     }
 
     /**
@@ -146,20 +148,28 @@ public class Player {
         throw new UnsupportedOperationException();
     }
 
-    public void createLobby(String title, Game game, GameMode gmode, String rank, int size) {
+    public void createLobby(String title, Game game, GameMode gmode, String rank, String uni, int size, String host) {
         // TODO - implement Player.createLobby
         ArrayList<Lobby> list = LobbyList.getInstance().getLobbyList();
-        list.add(new Lobby(title, game, gmode, rank, this.university, size));
-        list.get(list.size() - 1).addPlayer(this);
-
+        Lobby lob = new Lobby(title, game, gmode, rank, uni, size, host);
+        lob.addPlayer(this);
+        list.add(lob);
         if (role instanceof UserRole) {
             role = new HostRole();
         }
         HostRole hr = (HostRole) role;
-        hr.addUserLobby(list.get(list.size() - 1));
+        hr.addUserLobby(lob);
 
     }
 
+    public void addLobby(Lobby lobbyName){
+         if (role instanceof UserRole) {
+            role = new HostRole();
+        }
+        HostRole hr = (HostRole) role;
+        hr.addUserLobby(lobbyName);
+        lobbyName.addPlayer(this);
+    }
     /**
      *
      * @param lobbyName

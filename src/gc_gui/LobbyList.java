@@ -47,9 +47,11 @@ public class LobbyList {
         try {
             in = new FileReader("lib/lobbylist.txt");
             BufferedReader br = new BufferedReader(in);
-            String name, game, mode, rank, uni, size;
+            String name, game, mode, rank, uni, size, host;
             Game gameName;
             GameMode gMode;
+            Player p;
+            Lobby lob;
             while((name=br.readLine()) != null){
                 game=br.readLine();
                 mode=br.readLine();
@@ -59,24 +61,31 @@ public class LobbyList {
                 uni=br.readLine();
                 size=br.readLine();
                 int s = Integer.parseInt(size);
-                addLobby(new Lobby(name, gameName, gMode, rank, uni, s ));
+                host = br.readLine();
+                p = UserAccountList.getInstance().findHost(host);
+                addLobby(new Lobby(name, gameName, gMode, rank, p.getUniversity(), s, p.getUsername()), p);
             }   
-            return;
         } catch (FileNotFoundException ex) {
             Logger.getLogger(LobbyList.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(LobbyList.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        } finally{
+            try {
+                in.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GameList.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }
     /**
      *
      * @param lobbyName
      */
-    public void addLobby(Lobby lobbyName) {
+    public void addLobby(Lobby lobbyName, Player p) {
         // TODO - implement LobbyList.addLobby
         lobbyList.add(lobbyName);
-        
+        p.addLobby(lobbyName);
     }
     
     public static Game checkGame(String g){

@@ -11,6 +11,7 @@ public class Lobby {
     private String lobbyUniversity;
     private int size;
     private ArrayList<Player> playerList;
+    private String host;
 
     /**
      *
@@ -19,7 +20,7 @@ public class Lobby {
      * @param gmode
      * @param rank
      */
-    public Lobby(String title, Game game, GameMode gmode, String rank, String uni, int size) {
+    public Lobby(String title, Game game, GameMode gmode, String rank, String uni, int size, String host) {
         // TODO - implement Lobby.Lobby
         this.lobbyTitle = title;
         this.lobbyGame = game;
@@ -28,6 +29,7 @@ public class Lobby {
         this.lobbyUniversity = uni;
         this.size = size;
         this.playerList = new ArrayList<>();
+        this.host = host;
     }
 
     public int getSize() {
@@ -52,6 +54,10 @@ public class Lobby {
 
     public String getLobbyUniversity() {
         return lobbyUniversity;
+    }
+
+    public String getHost() {
+        return host;
     }
 
     public ArrayList getPlayerList() {
