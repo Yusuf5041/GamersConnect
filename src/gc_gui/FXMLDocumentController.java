@@ -67,7 +67,7 @@ public class FXMLDocumentController implements Callback, Initializable {
     private JFXTextField usernameField, passwordField, newUsernameField, newPasswordField, newDiscordField, guestSearchField, formLobbyTitle, searchField, userSearchField;
 
     @FXML
-    private TextField profileUsernameField, profileDiscordField, formGameID, displayUserField, lobbyTitleField;
+    private TextField profileUsernameField, profileDiscordField, profileUniversityField, formGameID, displayUserField, lobbyTitleField;
 
     @FXML
     private ComboBox<String> formGame, formRank, formSize, formMode, searchGameBox, searchModeBox, searchRankBox, searchUniversityBox;
@@ -441,11 +441,14 @@ public class FXMLDocumentController implements Callback, Initializable {
 
         profileUsernameField.setText(p.getUsername());
         profileDiscordField.setText(p.getDiscordID());
-        for (int j = 0; j < p.getGameDetails().size(); j++) {
+        profileUniversityField.setText(p.getUniversity());
+        
+        game_details.getChildren().remove(3, game_details.getChildren().size());
+        for (int i = 0; i < p.getGameDetails().size(); i++) {
 
-            game_details.add(new Label(p.getGameDetails().get(j).getGame().getGameName()), 0, j + 1);
-            game_details.add(new Label(p.getGameDetails().get(j).getGamerID()), 1, j + 1);
-            game_details.add(new Label(p.getGameDetails().get(j).getUserRank()), 2, j + 1);
+            game_details.add(new Label(p.getGameDetails().get(i).getGame().getGameName()), 0, i + 1);
+            game_details.add(new Label(p.getGameDetails().get(i).getGamerID()), 1, i + 1);
+            game_details.add(new Label(p.getGameDetails().get(i).getUserRank()), 2, i + 1);
 
         }
         ObservableList<Node> ol = game_details.getChildren();

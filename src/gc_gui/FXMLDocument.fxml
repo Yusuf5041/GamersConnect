@@ -151,12 +151,12 @@
                            <children>
                               <TableView fx:id="myLobbyTable" layoutX="19.0" layoutY="69.0" prefHeight="290.0" prefWidth="811.0" style="-fx-background-color: #2d3447; -fx-border-style: solid; -fx-border-color: #2c2c2c; -fx-border-radius: 20;">
                                  <columns>
-                                    <TableColumn fx:id="titleCol" prefWidth="217.0" text="Title" />
-                                    <TableColumn fx:id="gameCol" minWidth="0.0" prefWidth="207.0" text="Game" />
-                                    <TableColumn fx:id="modeCol" prefWidth="151.0" text="Mode" />
-                                    <TableColumn fx:id="rankCol" minWidth="0.0" prefWidth="168.0" text="Rank" />
-                                    <TableColumn fx:id="univCol" prefWidth="75.0" text="University" />
-                                    <TableColumn fx:id="sizeCol" prefWidth="67.0" text="Size" />
+                                    <TableColumn fx:id="titleColl" prefWidth="217.0" text="Title" />
+                                    <TableColumn fx:id="gameColl" minWidth="0.0" prefWidth="207.0" text="Game" />
+                                    <TableColumn fx:id="modeColl" prefWidth="151.0" text="Mode" />
+                                    <TableColumn fx:id="rankColl" minWidth="0.0" prefWidth="168.0" text="Rank" />
+                                    <TableColumn fx:id="univColl" prefWidth="75.0" text="University" />
+                                    <TableColumn fx:id="sizeColl" prefWidth="67.0" text="Size" />
                                  </columns>
                               </TableView>
                               <JFXButton fx:id="viewButton" layoutX="258.0" layoutY="410.0" onAction="#handleViewLobbyAction" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #e9f814;" text="View" textFill="#2c2c2c" />
@@ -279,7 +279,7 @@
             </JFXButton>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="gc_profile" prefHeight="510.0" prefWidth="848.0" visible="false">
+      <AnchorPane fx:id="gc_profile" prefHeight="545.0" prefWidth="848.0" visible="false">
          <children>
             <TextField fx:id="profileUsernameField" alignment="CENTER" editable="false" layoutX="142.0" layoutY="112.0" prefHeight="36.0" prefWidth="149.0" style="-fx-text-fill: #e9f814; -fx-background-color: #2c2c2c;" />
             <Label layoutX="43.0" layoutY="120.0" prefHeight="17.0" prefWidth="67.0" text="Username" textFill="#e9f814">
@@ -339,6 +339,12 @@
                   <Font size="14.0" />
                </font>
             </JFXButton>
+            <Label layoutX="43.0" layoutY="287.0" prefHeight="17.0" prefWidth="67.0" text="University" textFill="#e9f814">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="profileUniversityField" alignment="CENTER" layoutX="142.0" layoutY="279.0" prefHeight="36.0" prefWidth="149.0" style="-fx-text-fill: #e9f814; -fx-background-color: #2c2c2c;" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="gc_lobby" prefHeight="545.0" prefWidth="848.0" visible="false">
