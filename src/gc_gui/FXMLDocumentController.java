@@ -28,6 +28,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -64,11 +65,14 @@ public class FXMLDocumentController implements Callback, Initializable {
     private Button signupButton2, viewProfileButton;
 
     @FXML
-    private JFXTextField usernameField, passwordField, newUsernameField, newPasswordField, newDiscordField, guestSearchField, formLobbyTitle, searchField, userSearchField;
+    private JFXTextField usernameField, newUsernameField, newDiscordField, guestSearchField, formLobbyTitle, searchField, userSearchField;
 
     @FXML
     private TextField profileUsernameField, profileDiscordField, profileUniversityField, formGameID, displayUserField, lobbyTitleField;
 
+    @FXML
+    private JFXPasswordField passwordField, newPasswordField;
+    
     @FXML
     private ComboBox<String> formGame, formRank, formSize, formMode, searchGameBox, searchModeBox, searchRankBox, searchUniversityBox, registerUniBox;
 
