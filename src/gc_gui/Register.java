@@ -10,10 +10,11 @@ public class Register {
 
     private Player newUser;
 
-    public Register(String username, String password, String discordID) {
+    public Register(String username, String password, String discordID, String uni) {
         // TODO - implement Register.Register
         newUser = createUserAccount(username, password, discordID);
         addUser(newUser);
+        newUser.setUniversity(uni);
     }
 
     private Player createUserAccount(String username, String password, String discordID) {

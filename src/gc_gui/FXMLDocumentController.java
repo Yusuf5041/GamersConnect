@@ -70,7 +70,7 @@ public class FXMLDocumentController implements Callback, Initializable {
     private TextField profileUsernameField, profileDiscordField, profileUniversityField, formGameID, displayUserField, lobbyTitleField;
 
     @FXML
-    private ComboBox<String> formGame, formRank, formSize, formMode, searchGameBox, searchModeBox, searchRankBox, searchUniversityBox;
+    private ComboBox<String> formGame, formRank, formSize, formMode, searchGameBox, searchModeBox, searchRankBox, searchUniversityBox, registerUniBox;
 
     @FXML
     private TextArea suggestedUsersArea, suggestedUsersArea2;
@@ -155,20 +155,32 @@ public class FXMLDocumentController implements Callback, Initializable {
         if (event.getTarget() == registerButton) {
             ArrayList<Player> users;
             try {
-                users = UserAccountList.getInstance().getUserList();
-                for (int i = 0; i < users.size(); i++) {
-                    if (users.get(i).getUsername().equals(newUsernameField.getText())) {
-                        JOptionPane.showMessageDialog(null, "Username taken!");
-                        return;
+                if (newUsernameField.getText().length() < 8 || newPasswordField.getText().length() < 8) {
+                    JOptionPane.showMessageDialog(null, "Username/Password must be longer than 8 letters");
+                } else {
+                    users = UserAccountList.getInstance().getUserList();
+                    for (int i = 0; i < users.size(); i++) {
+                        if (users.get(i).getUsername().equals(newUsernameField.getText())) {
+                            JOptionPane.showMessageDialog(null, "Username taken!");
+                            return;
+                        }
+                    }
+
+                    if (registerUniBox != null && !registerUniBox.equals("")) { //ensures university box has a value selected
+                        Register register = new Register(newUsernameField.getText(), newPasswordField.getText(), newDiscordField.getText(), registerUniBox.getValue());
+                        user = register.getNewPlayer();
+                        displayUserField.setText(user.getUsername());
+                        gc_register.setVisible(false);
+                        gc_main.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Please fill in all necessary fields");
                     }
                 }
 
-                Register register = new Register(newUsernameField.getText(), newPasswordField.getText(), newDiscordField.getText());
-                user = register.getNewPlayer();
-                gc_register.setVisible(false);
-                gc_main.setVisible(true);
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(null, "Please fill in all necessary fields");
             }
 
         }
@@ -444,7 +456,7 @@ public class FXMLDocumentController implements Callback, Initializable {
         profileUsernameField.setText(p.getUsername());
         profileDiscordField.setText(p.getDiscordID());
         profileUniversityField.setText(p.getUniversity());
-        
+
         game_details.getChildren().remove(3, game_details.getChildren().size());
         for (int i = 0; i < p.getGameDetails().size(); i++) {
 
@@ -550,6 +562,9 @@ public class FXMLDocumentController implements Callback, Initializable {
 
         searchUniversityBox.setItems(unis);
         searchUniversityBox.getItems().add("Any");
+
+        registerUniBox.setItems(unis);
+        registerUniBox.getItems().add("None");
     }
 
     //allows dynamic changing of combo boxes when creating lobby
