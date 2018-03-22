@@ -83,16 +83,23 @@
                            <children>
                               <TableView fx:id="lobbyTable" layoutX="19.0" layoutY="151.0" prefHeight="290.0" prefWidth="811.0" style="-fx-background-color: #2d3447; -fx-border-style: solid; -fx-border-color: #2c2c2c;">
                                 <columns>
-                                  <TableColumn fx:id="titleCol" prefWidth="217.0" text="Title" />
-                                  <TableColumn fx:id="gameCol" minWidth="0.0" prefWidth="207.0" text="Game" />
-                                    <TableColumn fx:id="modeCol" prefWidth="151.0" text="Mode" />
-                                    <TableColumn fx:id="rankCol" minWidth="0.0" prefWidth="168.0" text="Rank" />
-                                    <TableColumn fx:id="sizeCol" prefWidth="67.0" text="Size" />
-                                    <TableColumn fx:id="idColumn" editable="false" prefWidth="75.0" text="id" visible="false" />
+                                  <TableColumn fx:id="titleCol" prefWidth="171.0" text="Title" />
+                                  <TableColumn fx:id="gameCol" minWidth="0.0" prefWidth="168.0" text="Game" />
+                                    <TableColumn fx:id="modeCol" prefWidth="136.0" text="Mode" />
+                                    <TableColumn fx:id="rankCol" minWidth="0.0" prefWidth="124.0" text="Rank" />
+                                    <TableColumn fx:id="uniCol" prefWidth="75.0" text="University" />
+                                    <TableColumn fx:id="sizeCol" prefWidth="211.0" text="Size" />
                                 </columns>
                               </TableView>
                               <JFXButton fx:id="createButton" layoutX="306.0" layoutY="453.0" onAction="#handleCreationButton" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: #e9f814;" text="Create" textFill="#2c2c2c" />
                               <JFXButton fx:id="joinButton" layoutX="456.0" layoutY="453.0" onAction="#handleJoinButton" prefHeight="25.0" prefWidth="49.0" style="-fx-background-color: #e9f814;" text="Join" textFill="#2c2c2c" />
+                              <ComboBox fx:id="searchGameBox" layoutX="26.0" layoutY="60.0" onAction="#updateFilterFormData" prefHeight="30.0" prefWidth="188.0" promptText="Game" style="-fx-background-color: #e9f814;" />
+                              <ComboBox fx:id="searchRankBox" layoutX="401.0" layoutY="61.0" prefHeight="30.0" prefWidth="110.0" promptText="Rank" style="-fx-background-color: #e9f814;" />
+                              <ComboBox fx:id="searchUniversityBox" layoutX="549.0" layoutY="60.0" prefHeight="30.0" prefWidth="168.0" promptText="University" style="-fx-background-color: #e9f814;" />
+                              <ComboBox fx:id="searchModeBox" layoutX="246.0" layoutY="60.0" prefHeight="30.0" prefWidth="120.0" promptText="Mode" style="-fx-background-color: #e9f814;" />
+                              <JFXButton fx:id="addButton1" onAction="#handleAddGameAction" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: #2c2c2c;" text="Add" textFill="#e9f814" visible="false" />
+                              <JFXButton fx:id="filterSearchButton" layoutX="738.0" layoutY="63.0" onAction="#handleFilterAction" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: #e9f814;" text="Search" textFill="#2c2c2c" />
+                              <JFXButton fx:id="resetButton" layoutX="738.0" layoutY="120.0" onAction="#handleResetAction" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: #e9f814;" text="Reset" textFill="#2c2c2c" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -148,6 +155,7 @@
                                     <TableColumn fx:id="gameCol" minWidth="0.0" prefWidth="207.0" text="Game" />
                                     <TableColumn fx:id="modeCol" prefWidth="151.0" text="Mode" />
                                     <TableColumn fx:id="rankCol" minWidth="0.0" prefWidth="168.0" text="Rank" />
+                                    <TableColumn fx:id="univCol" prefWidth="75.0" text="University" />
                                     <TableColumn fx:id="sizeCol" prefWidth="67.0" text="Size" />
                                  </columns>
                               </TableView>
@@ -253,7 +261,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <ComboBox fx:id="formGame" layoutX="201.0" layoutY="179.0" onAction="#updateFormData" prefHeight="30.0" prefWidth="243.0" promptText="Game" style="-fx-background-color: #e9f814;" />
+            <ComboBox fx:id="formGame" layoutX="201.0" layoutY="179.0" onAction="#updateCreateFormData" prefHeight="30.0" prefWidth="243.0" promptText="Game" style="-fx-background-color: #e9f814;" />
             <ComboBox fx:id="formRank" layoutX="498.0" layoutY="179.0" prefHeight="30.0" prefWidth="150.0" promptText="Rank" style="-fx-background-color: #e9f814;" />
             <ComboBox fx:id="formSize" layoutX="498.0" layoutY="258.0" prefHeight="30.0" prefWidth="150.0" promptText="Lobby Size" style="-fx-background-color: #e9f814;" />
             <ComboBox fx:id="formMode" layoutX="201.0" layoutY="258.0" onAction="#updateSizeList" prefHeight="30.0" prefWidth="243.0" promptText="Mode" style="-fx-background-color: #e9f814;" />

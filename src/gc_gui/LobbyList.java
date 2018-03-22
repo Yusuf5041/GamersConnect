@@ -30,8 +30,12 @@ public class LobbyList {
         return instance;
     }
 
-    public ArrayList getLobbyList() {
+    public ArrayList<Lobby> getLobbyList() {
         return this.lobbyList;
+    }
+
+    public ArrayList<Lobby> getFilteredList() {
+        return filteredList;
     }
 
     public ArrayList<Lobby> getFullList() {
@@ -41,9 +45,9 @@ public class LobbyList {
     private void readFile(){
         FileReader in = null;
         try {
-            in = new FileReader("C://Users/Main/Documents/GamersConnect/lib/lobbylist.txt");
+            in = new FileReader("lib/lobbylist.txt");
             BufferedReader br = new BufferedReader(in);
-            String name, game, mode, rank, size;
+            String name, game, mode, rank, uni, size;
             Game gameName;
             GameMode gMode;
             while((name=br.readLine()) != null){
@@ -52,9 +56,10 @@ public class LobbyList {
                 gameName=checkGame(game);
                 gMode = checkMode(gameName, mode);
                 rank=br.readLine();
+                uni=br.readLine();
                 size=br.readLine();
                 int s = Integer.parseInt(size);
-                addLobby(new Lobby(name, gameName, gMode, rank, s ));
+                addLobby(new Lobby(name, gameName, gMode, rank, uni, s ));
             }   
             return;
         } catch (FileNotFoundException ex) {
@@ -92,6 +97,12 @@ public class LobbyList {
         return null;
     }
     
+    public static boolean checkList(Lobby lob){
+        for (int i = 0; i < LobbyList.getInstance().getFilteredList().size(); i++) {
+            if(lob == LobbyList.getInstance().getFilteredList().get(i)) return true;
+        }
+        return false;
+    }
     /**
      *
      * @param lobbyName
@@ -117,6 +128,26 @@ public class LobbyList {
             
     }
 
+    public static void filterList(String game, String mode, String rank, String uni){
+        LobbyList.getInstance().getFilteredList().clear();
+        Game g = checkGame(game);
+        GameMode gm = checkMode(g, mode);
+        LobbyList inst = LobbyList.getInstance();
+        for (Lobby lobby : inst.getLobbyList()) {
+            if(g == lobby.getLobbyGame()){
+                if(gm == lobby.getLobbyMode()){
+                    if(rank.equals(lobby.getLobbyRank())){
+                        if(uni == lobby.getLobbyUniversity() || uni.equals("Any")){
+                            
+                                inst.getFilteredList().add(lobby);
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     public Integer findLobbySize() {
         // TODO - implement LobbyList.findLobbySize
         throw new UnsupportedOperationException();

@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import com.jfoenix.controls.*;
+import com.sun.java.accessibility.util.SwingEventMonitor;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
@@ -56,7 +57,7 @@ public class FXMLDocumentController implements Callback, Initializable {
     @FXML
     private GridPane game_details;
     @FXML
-    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton, createLobbyButton, saveProfileButton, addGameButton, addButton, createBack, addBack, 
+    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton, createLobbyButton, saveProfileButton, addGameButton, addButton, createBack, addBack,
             searchUserButton, profileBack, guestSearchButton, guestBack, confirmLobbyButton, removePlayerButton, viewButton, deleteButton;
 
     @FXML
@@ -69,16 +70,16 @@ public class FXMLDocumentController implements Callback, Initializable {
     private TextField profileUsernameField, profileDiscordField, formGameID, displayUserField, lobbyTitleField;
 
     @FXML
-    private ComboBox<String> formGame, formRank, formSize, formMode;
+    private ComboBox<String> formGame, formRank, formSize, formMode, searchGameBox, searchModeBox, searchRankBox, searchUniversityBox;
 
     @FXML
     private TextArea suggestedUsersArea, suggestedUsersArea2;
 
     @FXML
     private TableView<Lobby> lobbyTable, myLobbyTable;
-    
+
     @FXML
-    private TableView<Player>lobbyPlayerTable;
+    private TableView<Player> lobbyPlayerTable;
 
     @FXML
     private TableColumn titleCol, gameCol, modeCol, rankCol, sizeCol, idColumn, userColumn, rankColumn, gIDColumn, discordColumn;
@@ -93,6 +94,7 @@ public class FXMLDocumentController implements Callback, Initializable {
     private Tab hostLobbies;
 
     private Player user;
+    private ArrayList<String> games;
 
     @FXML
     private void handleLoginAction(ActionEvent event) throws IOException {
@@ -108,7 +110,9 @@ public class FXMLDocumentController implements Callback, Initializable {
                         if (user.getRole() instanceof HostRole) {
                             HostRole hr = (HostRole) user.getRole();
                             addLobbyTableData(hr.getUserLobbies(), myLobbyTable);
-                        } else hostLobbies.setDisable(true);
+                        } else {
+                            hostLobbies.setDisable(true);
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Wrong Password");
                         break;
@@ -370,50 +374,67 @@ public class FXMLDocumentController implements Callback, Initializable {
     }
 
     @FXML
-    private void handleDeleteAction(ActionEvent e){
+    private void handleDeleteAction(ActionEvent e) {
         Lobby l = myLobbyTable.getSelectionModel().getSelectedItem();
         HostRole hr = (HostRole) user.getRole();
         hr.removeUserLobby(l);
         addLobbyTableData(LobbyList.getInstance().getLobbyList(), lobbyTable);
         addLobbyTableData(hr.getUserLobbies(), myLobbyTable);
-        
-        if(hr.getUserLobbies().size() == 0){
+
+        if (hr.getUserLobbies().size() == 0) {
             user.resetRole();
             hostLobbies.setDisable(true);
         }
     }
-    
+
     @FXML
-    private void handleViewLobbyAction(ActionEvent event){
+    private void handleViewLobbyAction(ActionEvent event) {
         Lobby l = myLobbyTable.getSelectionModel().getSelectedItem();
         lobbyTitleField.setText(l.getLobbyTitle());
         addPlayerTableData(lobbyPlayerTable, l);
         gc_lobby.setVisible(true);
         gc_main.setVisible(false);
     }
-    
+
     @FXML
     private void handleRemovePlayerAction(ActionEvent event) {
-        
+
     }
-    
+
     @FXML
     private void handleConfirmLobbyAction(ActionEvent event) throws IOException {
         Runtime runtime = Runtime.getRuntime();     //getting Runtime object
- 
-        try
-        {
+
+        try {
             runtime.exec("C:\\Users\\Main\\AppData\\Local\\Discord\\app-0.0.300\\Discord.exe");        //opens new notepad instance
 
-        }
-        catch (IOException e)
-        {
-            
+        } catch (IOException e) {
+
             Desktop.getDesktop().browse(URI.create("https://discordapp.com/"));
             e.printStackTrace();
         }
     }
-    
+
+    @FXML
+    private void handleFilterAction(ActionEvent event) {
+        try {
+            LobbyList.filterList(searchGameBox.getValue(), searchModeBox.getValue(), searchRankBox.getValue(), searchUniversityBox.getValue());
+            addLobbyTableData(LobbyList.getInstance().getFilteredList(), lobbyTable);
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Fill in all parts of search filter");
+        }
+
+    }
+
+    @FXML
+    private void handleResetAction(ActionEvent event) {
+        addLobbyTableData(LobbyList.getInstance().getLobbyList(), lobbyTable);
+        searchGameBox.getSelectionModel().clearSelection();
+        searchModeBox.getSelectionModel().clearSelection();
+        searchRankBox.getSelectionModel().clearSelection();
+        searchUniversityBox.getSelectionModel().clearSelection();
+    }
+
     @FXML
     private void updateProfile(Player p) throws IOException {
         Paint paint = Paint.valueOf("#e9f814");
@@ -442,8 +463,11 @@ public class FXMLDocumentController implements Callback, Initializable {
         //gameBox.setItems();
         addLobbyTableData(LobbyList.getInstance().getLobbyList(), lobbyTable);
 
+        games = new ArrayList<>();
+        for (Game game : GameList.getInstance().getGameList()) {
+            games.add(game.getGameName());
+        }
         addFormData();
-
     }
 
     @Override
@@ -452,39 +476,44 @@ public class FXMLDocumentController implements Callback, Initializable {
     }
 
     private void addLobbyTableData(ArrayList<Lobby> lobList, TableView<Lobby> tab) {
-        final ObservableList<Lobby> data = FXCollections.observableArrayList();
-        TableColumn gameC=tab.getColumns().get(1);
-        TableColumn modeC=tab.getColumns().get(2);
-        data.addAll(lobList);
-        
-        tab.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("lobbyTitle"));
-        gameC.setCellValueFactory(new Callback<CellDataFeatures<Lobby, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(CellDataFeatures<Lobby, String> p) {
-                return new SimpleStringProperty(p.getValue().getLobbyGame().getGameName());
-            }
-        });
-        modeC.setCellValueFactory(new Callback<CellDataFeatures<Lobby, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(CellDataFeatures<Lobby, String> p) {
-                return new SimpleStringProperty(p.getValue().getLobby().getLobbyMode().getModeName());
-            }
-        });
-        tab.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("lobbyRank"));
-        tab.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("size"));
+        if (lobList.size() > 0) {
+            final ObservableList<Lobby> data = FXCollections.observableArrayList();
+            TableColumn gameC = tab.getColumns().get(1);
+            TableColumn modeC = tab.getColumns().get(2);
+            data.addAll(lobList);
 
-        tab.setItems(data);
+            tab.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("lobbyTitle"));
+            gameC.setCellValueFactory(new Callback<CellDataFeatures<Lobby, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(CellDataFeatures<Lobby, String> p) {
+                    return new SimpleStringProperty(p.getValue().getLobbyGame().getGameName());
+                }
+            });
+            modeC.setCellValueFactory(new Callback<CellDataFeatures<Lobby, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(CellDataFeatures<Lobby, String> p) {
+                    return new SimpleStringProperty(p.getValue().getLobby().getLobbyMode().getModeName());
+                }
+            });
+            tab.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("lobbyRank"));
+            tab.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("lobbyUniversity"));
+            tab.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("size"));
+
+            tab.setItems(data);
+        } else {
+            JOptionPane.showMessageDialog(null, "No lobbies available");
+        }
     }
 
     @FXML
-    private void addPlayerTableData(TableView<Player> tab, Lobby lob){
+    private void addPlayerTableData(TableView<Player> tab, Lobby lob) {
         final ObservableList<Player> data = FXCollections.observableArrayList();
-        
+
         TableColumn rankCol = tab.getColumns().get(1);
         TableColumn gIDCol = tab.getColumns().get(2);
-        
+
         data.addAll(lob.getPlayerList());
-        
+
         tab.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("username"));
         rankCol.setCellValueFactory(new Callback<CellDataFeatures<Player, String>, ObservableValue<String>>() {
             @Override
@@ -492,35 +521,35 @@ public class FXMLDocumentController implements Callback, Initializable {
                 return new SimpleStringProperty(p.getValue().getRank(lob.getLobbyGame()));
             }
         });
-        
+
         gIDCol.setCellValueFactory(new Callback<CellDataFeatures<Player, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(CellDataFeatures<Player, String> p) {
                 return new SimpleStringProperty(p.getValue().getGamerID(lob.getLobbyGame()));
             }
         });
-        
+
         tab.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("discordID"));
-        
+
         tab.setItems(data);
     }
-    
+
+    //adds initial set of data to form
     @FXML
     private void addFormData() {
-        ObservableList<String> gameOptions = FXCollections.observableArrayList(
-                "Overwatch",
-                "CSGO"
-        );
 
+        ObservableList<String> gameOptions = FXCollections.observableArrayList(games);
+        ObservableList<String> unis = FXCollections.observableArrayList(UniversityList.getInstance().getUniversityList());
         formGame.setItems(gameOptions);
+        searchGameBox.setItems(gameOptions);
 
-        formRank.getItems().add("Any");
-        formMode.getItems().add("Any");
-
+        searchUniversityBox.setItems(unis);
+        searchUniversityBox.getItems().add("Any");
     }
 
+    //allows dynamic changing of combo boxes when creating lobby
     @FXML
-    private void updateFormData() {
+    private void updateCreateFormData() {
         String game = formGame.getValue();
         formRank.getItems().clear();
         formMode.getItems().clear();
@@ -532,7 +561,7 @@ public class FXMLDocumentController implements Callback, Initializable {
             if (game.equals(gl.get(i).getGameName())) {
                 //fill rank combo box
                 temp = gl.get(i).getRankSystem();
-                formRank.setValue("Any");
+
                 for (Object val : temp.getRanks().values()) {
                     formRank.getItems().add((String) val);
                 }
@@ -548,6 +577,39 @@ public class FXMLDocumentController implements Callback, Initializable {
 
     }
 
+    //allows dynamic changing of combo boxes when filtering lobbies
+    @FXML
+    private void updateFilterFormData() {
+        String game = searchGameBox.getValue();
+        if (game != null) {
+            searchRankBox.getItems().clear();
+            searchModeBox.getItems().clear();
+
+            ArrayList<Game> gl = GameList.getInstance().getGameList();
+            ArrayList<GameMode> gm = null;
+            RankSystem temp = null;
+            for (int i = 0; i < gl.size(); i++) {
+                if (game.equals(gl.get(i).getGameName())) {
+                    //fill rank combo box
+                    temp = gl.get(i).getRankSystem();
+
+                    for (Object val : temp.getRanks().values()) {
+                        searchRankBox.getItems().add((String) val);
+                    }
+                    searchRankBox.setVisibleRowCount(temp.getRanks().values().size());
+                    //fill mode combo box
+                    gm = gl.get(i).getModes();
+                    for (int j = 0; j < gm.size(); j++) {
+                        searchModeBox.getItems().add(gm.get(j).getModeName());
+                    }
+                    searchModeBox.setVisibleRowCount(gm.size());
+                }
+            }
+        }
+
+    }
+
+    //chnages items in combo box depending on game mode chosen
     @FXML
     private void updateSizeList() {
         String game = formGame.getValue();

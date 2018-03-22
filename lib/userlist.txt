@@ -1,3 +1,6 @@
-John Smith Overwatch FUSUY Platinum
-Jane Doe LoL D3str0yer Gold
-newuser test2 fusus
+John test arkham-assassin Overwatch FUSUY Platinum
+Queen Mary University
+Jane test flimzy CSGO D3str0yer Prestige
+None
+newuser test2 fusus Overwatch susf Gold
+Leeds University

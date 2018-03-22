@@ -38,11 +38,13 @@ public class UserAccountList {
     }
 
     private void readFile() throws FileNotFoundException, IOException {
-        FileReader in = new FileReader("C://Users/Main/Documents/GamersConnect/lib/userlist.txt");
+        System.out.println(System.getProperty("user.dir"));
+        FileReader in = new FileReader("lib/userlist.txt");
         BufferedReader br = new BufferedReader(in);
         String line;
         while((line=br.readLine()) != null){
             addPlayers(line);
+            userList.get(userList.size()-1).setUniversity(br.readLine());
         }
         return;
         
@@ -50,10 +52,13 @@ public class UserAccountList {
 
     private void addPlayers(String line){
         String parts[] = line.split(" ");
-        /*ArrayList<UserGame> ug = new ArrayList<UserGame>();
-            ug.add(new UserGame(parts[2],parts[3],parts[4]));
-        */
-        userList.add(new Player(parts[0], "test", "test"));
+        Player p = new Player(parts[0], parts[1], parts[2]);
+        userList.add(p);
+        if(parts[3] != null){
+            for (int i = 3; i < parts.length; i+=3) {
+                p.addGameDetails(LobbyList.checkGame(parts[i]), parts[i+1], parts[i+2]);
+            }
+        }
         return;
     }
     

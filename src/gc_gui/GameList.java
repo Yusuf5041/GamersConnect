@@ -26,7 +26,7 @@ public class GameList {
         return instance;
     }
 
-    public ArrayList getGameList() {
+    public ArrayList<Game> getGameList() {
         // TODO - implement GameList.getGameList
         return this.listOfGames;
     }
@@ -43,7 +43,7 @@ public class GameList {
     private void readFile() {
         FileReader in = null;
         try {
-            in = new FileReader("C://Users/Main/Documents/GamersConnect/lib/gamelist.txt");
+            in = new FileReader("lib/gamelist.txt");
             BufferedReader br = new BufferedReader(in);
             String name, modes, ranks;
             Game temp;
