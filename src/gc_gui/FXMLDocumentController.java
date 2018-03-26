@@ -13,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import com.jfoenix.controls.*;
-import com.sun.java.accessibility.util.SwingEventMonitor;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
@@ -21,28 +20,22 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableCell;
-import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import javax.swing.JOptionPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 
@@ -50,7 +43,7 @@ import javafx.scene.paint.Paint;
  *
  * @author Main
  */
-public class FXMLDocumentController implements Callback, Initializable {
+public class FXMLDocumentController implements Initializable {
 
     @FXML
     private AnchorPane gc_login, gc_main, gc_register, gc_guest_search, gc_create_form, gc_profile, gc_lobby;
@@ -58,21 +51,21 @@ public class FXMLDocumentController implements Callback, Initializable {
     @FXML
     private GridPane game_details;
     @FXML
-    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton, createLobbyButton, saveProfileButton, addGameButton, addButton, createBack, addBack,
-            searchUserButton, profileBack, guestSearchButton, guestBack, confirmButton, removePlayerButton, viewButton, deleteButton, viewButton2, lobbyViewBack;
+    private JFXButton loginButton, signupButton, registerButton, backButton, backButton2, guestButton, createButton, createLobbyButton, saveProfileButton, addGameButton, addButton, createBack,
+            searchUserButton, profileBack, guestSearchButton, guestBack, confirmButton, removePlayerButton, viewButton, viewButton2, lobbyViewBack;
 
     @FXML
-    private Button signupButton2, viewProfileButton;
+    private Button signupButton2;
 
     @FXML
-    private JFXTextField usernameField, newUsernameField, newDiscordField, guestSearchField, formLobbyTitle, searchField, userSearchField;
+    private JFXTextField usernameField, newUsernameField, newDiscordField, formLobbyTitle, searchField, userSearchField;
 
     @FXML
     private TextField profileUsernameField, profileDiscordField, profileUniversityField, formGameID, displayUserField, lobbyTitleField;
 
     @FXML
     private JFXPasswordField passwordField, newPasswordField;
-    
+
     @FXML
     private ComboBox<String> formGame, formRank, formSize, formMode, searchGameBox, searchModeBox, searchRankBox, searchUniversityBox, registerUniBox;
 
@@ -86,19 +79,14 @@ public class FXMLDocumentController implements Callback, Initializable {
     private TableView<Player> lobbyPlayerTable;
 
     @FXML
-    private TableColumn titleCol, gameCol, modeCol, rankCol, sizeCol, idColumn, userColumn, rankColumn, gIDColumn, discordColumn;
-
-    @FXML
     private Label addGameLabel, createLobbyLabel;
-
-    @FXML
-    private JFXTabPane tabPane;
 
     @FXML
     private Tab hostLobbies;
 
     private Player user;
     private ArrayList<String> games;
+    private Lobby hostViewing;
 
     //handles the login process once the button is pressed
     @FXML
@@ -150,7 +138,7 @@ public class FXMLDocumentController implements Callback, Initializable {
         } else if (event.getTarget() == profileBack) {
             gc_profile.setVisible(false);
             gc_main.setVisible(true);
-        } else if(event.getTarget() == lobbyViewBack){
+        } else if (event.getTarget() == lobbyViewBack) {
             gc_lobby.setVisible(false);
             gc_main.setVisible(true);
         }
@@ -173,7 +161,7 @@ public class FXMLDocumentController implements Callback, Initializable {
                         }
                     }
 
-                    if (registerUniBox != null && !registerUniBox.equals("")) { //ensures university box has a value selected
+                    if (registerUniBox != null && !registerUniBox.getValue().equals("")) { //ensures university box has a value selected
                         Register register = new Register(newUsernameField.getText(), newPasswordField.getText(), newDiscordField.getText(), registerUniBox.getValue());
                         user = register.getNewPlayer();
                         displayUserField.setText(user.getUsername());
@@ -185,6 +173,7 @@ public class FXMLDocumentController implements Callback, Initializable {
                 }
 
             } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Error handling file");
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (NullPointerException e) {
                 JOptionPane.showMessageDialog(null, "Please fill in all necessary fields");
@@ -228,6 +217,7 @@ public class FXMLDocumentController implements Callback, Initializable {
                     suggestedUsersArea.setText("");
                 }
             } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Error handling file");
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (event.getTarget() == userSearchField) {
@@ -250,6 +240,7 @@ public class FXMLDocumentController implements Callback, Initializable {
                     suggestedUsersArea2.setText("");
                 }
             } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Error handling file");
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -333,18 +324,23 @@ public class FXMLDocumentController implements Callback, Initializable {
     @FXML
     private void handleJoinButton(ActionEvent event) {
         Lobby l = lobbyTable.getSelectionModel().getSelectedItem();
-        boolean flag = true;
-        for (int i = 0; i < l.getPlayerList().size(); i++) {
-            if (l.getPlayerList().get(i) == user) {
-                flag = false;
-                break;
+        try {
+            boolean flag = true;
+            for (int i = 0; i < l.getPlayerList().size(); i++) {
+                if (l.getPlayerList().get(i) == user) {
+                    flag = false;
+                    break;
+                }
             }
-        }
-        if (flag) {
-            user.joinLobby(l);
-            JOptionPane.showMessageDialog(null, "Joined Lobby!");
-        } else {
-            JOptionPane.showMessageDialog(null, "Already in lobby!");
+            if (flag) {
+                user.joinLobby(l);
+                //addLobbyTableData(LobbyList.getInstance().getLobbyList(), lobbyTable);
+                JOptionPane.showMessageDialog(null, "Joined Lobby!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Already in lobby!");
+            }
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Please select a lobby to join!");
         }
 
     }
@@ -352,6 +348,7 @@ public class FXMLDocumentController implements Callback, Initializable {
     @FXML
     private void handleSearchButton(ActionEvent event) throws IOException {
         ArrayList<Player> playerList = UserAccountList.getInstance().getUserList();
+        boolean flag = false;
         if (event.getTarget() == searchUserButton) {
 
             for (int i = 0; i < playerList.size(); i++) {
@@ -363,8 +360,12 @@ public class FXMLDocumentController implements Callback, Initializable {
                     guestBack.setVisible(false);
                     addGameButton.setVisible(false);
                     saveProfileButton.setVisible(false);
+                    flag = true;
                     break;
                 }
+            }
+            if (!flag) {
+                JOptionPane.showMessageDialog(null, "User does not exist");
             }
         } else if (event.getTarget() == guestSearchButton) {
             for (int i = 0; i < playerList.size(); i++) {
@@ -376,8 +377,12 @@ public class FXMLDocumentController implements Callback, Initializable {
                     guestBack.setVisible(true);
                     addGameButton.setVisible(false);
                     saveProfileButton.setVisible(false);
+                    flag = true;
                     break;
                 }
+            }
+            if (!flag) {
+                JOptionPane.showMessageDialog(null, "User does not exist");
             }
         }
 
@@ -395,69 +400,134 @@ public class FXMLDocumentController implements Callback, Initializable {
     }
 
     @FXML
-    private void handleDeleteAction(ActionEvent e) {
+    private void handleDeleteAction(ActionEvent event) {
         Lobby l = myLobbyTable.getSelectionModel().getSelectedItem();
-        HostRole hr = (HostRole) user.getRole();
-        hr.removeUserLobby(l);
-        addLobbyTableData(LobbyList.getInstance().getLobbyList(), lobbyTable);
-        addLobbyTableData(hr.getUserLobbies(), myLobbyTable);
+        try {
+            HostRole hr = (HostRole) user.getRole();
+            hr.removeUserLobby(l);
+            addLobbyTableData(LobbyList.getInstance().getLobbyList(), lobbyTable);
+            addLobbyTableData(hr.getUserLobbies(), myLobbyTable);
 
-        if (hr.getUserLobbies().size() == 0) {
-            user.resetRole();
-            hostLobbies.setDisable(true);
+            if (hr.getUserLobbies().size() == 0) {
+                user.resetRole();
+                hostLobbies.setDisable(true);
+            }
+        } catch (NullPointerException ex) {
+            JOptionPane.showMessageDialog(null, "Please select a lobby to delete");
         }
+
     }
 
     @FXML
     private void handleViewLobbyAction(ActionEvent event) {
         if (event.getTarget() == viewButton) {
             Lobby l = myLobbyTable.getSelectionModel().getSelectedItem();
-            lobbyTitleField.setText(l.getLobbyTitle());
-            addPlayerTableData(lobbyPlayerTable, l);
-            gc_lobby.setVisible(true);
-            removePlayerButton.setVisible(true);
-            confirmButton.setVisible(true);
-            gc_main.setVisible(false);
-        } else if(event.getTarget() == viewButton2){
+            try {
+                hostViewing = l;
+                lobbyTitleField.setText(l.getLobbyTitle());
+                addPlayerTableData(lobbyPlayerTable, l);
+                gc_lobby.setVisible(true);
+                removePlayerButton.setVisible(true);
+                confirmButton.setVisible(true);
+                gc_main.setVisible(false);
+            } catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(null, "Please select a lobby to view");
+            }
+        } else if (event.getTarget() == viewButton2) {
             Lobby l = lobbyTable.getSelectionModel().getSelectedItem();
-            lobbyTitleField.setText(l.getLobbyTitle());
-            addPlayerTableData(lobbyPlayerTable, l);
-            gc_lobby.setVisible(true);
-            removePlayerButton.setVisible(false);
-            confirmButton.setVisible(false);
-            gc_main.setVisible(false);
+            try {
+                lobbyTitleField.setText(l.getLobbyTitle());
+                addPlayerTableData(lobbyPlayerTable, l);
+                gc_lobby.setVisible(true);
+                removePlayerButton.setVisible(false);
+                confirmButton.setVisible(false);
+                gc_main.setVisible(false);
+            } catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(null, "Please select a lobby to view");
+            }
+
         }
 
     }
 
     @FXML
     private void handleRemovePlayerAction(ActionEvent event) {
+        Player p = lobbyPlayerTable.getSelectionModel().getSelectedItem();
 
+        try {
+            if(user!=p){
+                HostRole hr = (HostRole) user.getRole();
+            if (hr.getUserLobbies().contains(hostViewing)) {
+                hr.removeUser(hostViewing, p);
+            }
+            LobbyList.getInstance().checkFull(hostViewing);
+            addPlayerTableData(lobbyPlayerTable, hostViewing);
+            } else{
+                JOptionPane.showMessageDialog(null, "Error: Can not remove host from lobby!");
+            }
+            
+        } catch (NullPointerException ex) {
+            JOptionPane.showMessageDialog(null, "Please select a lobby to delete");
+        }
     }
 
     @FXML
     private void handleConfirmLobbyAction(ActionEvent event) throws IOException {
-        Runtime runtime = Runtime.getRuntime();     //getting Runtime object
-
+        LobbyList ll = LobbyList.getInstance();
         try {
-            runtime.exec("C:\\Users\\Main\\AppData\\Local\\Discord\\app-0.0.300\\Discord.exe");        //opens new notepad instance
+            if (ll.getLobbyList().contains(hostViewing)) {
+                ll.getLobbyList().remove(hostViewing);
+            } else if (ll.getFullList().contains(hostViewing)) {
+                ll.getFullList().remove(hostViewing);
+            }
+            addLobbyTableData(ll.getLobbyList(), lobbyTable);
+            Runtime runtime = Runtime.getRuntime();     //getting Runtime object
 
-        } catch (IOException e) {
+            try {
+                runtime.exec("C:\\Users\\Main\\AppData\\Local\\Discord\\app-0.0.300\\Discord.exe");        //opens new notepad instance
 
-            Desktop.getDesktop().browse(URI.create("https://discordapp.com/"));
-            e.printStackTrace();
+            } catch (IOException e) {
+
+                Desktop.getDesktop().browse(URI.create("https://discordapp.com/"));
+                //e.printStackTrace();
+            }
+        } catch (Exception e) {
+
         }
+
     }
 
     @FXML
     private void handleFilterAction(ActionEvent event) {
         try {
-            LobbyList.filterList(searchGameBox.getValue(), searchModeBox.getValue(), searchRankBox.getValue(), searchUniversityBox.getValue());
+            String sa[] = new String[4];
+            sa[0] = searchGameBox.getValue();
+            sa[1] = searchModeBox.getValue();
+            sa[2] = searchRankBox.getValue();
+            sa[3] = searchUniversityBox.getValue();
+            for (String string : sa) {
+                if (string == null) {
+                    string = "Any";
+                }
+            }
+            LobbyList.filterList(sa[0], sa[1], sa[2], sa[3]);
             addLobbyTableData(LobbyList.getInstance().getFilteredList(), lobbyTable);
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, "Fill in all parts of search filter");
         }
 
+    }
+
+    @FXML
+    private void handleSaveButton(ActionEvent event) {
+        user.setDiscordID(profileDiscordField.getText());
+        JOptionPane.showMessageDialog(null, "Saved changes!");
+    }
+
+    @FXML
+    private void handleLogoutAction(ActionEvent event) {
+        gc_main.setVisible(false);
+        gc_login.setVisible(true);
     }
 
     @FXML
@@ -492,24 +562,6 @@ public class FXMLDocumentController implements Callback, Initializable {
                 l.setTextFill(paint);
             }
         }
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        //gameBox.setItems();
-        addLobbyTableData(LobbyList.getInstance().getLobbyList(), lobbyTable);
-
-        games = new ArrayList<>();
-        for (Game game : GameList.getInstance().getGameList()) {
-            games.add(game.getGameName());
-        }
-        addFormData();
-    }
-
-    @Override
-    public Object call(Object param) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private void addLobbyTableData(ArrayList<Lobby> lobList, TableView<Lobby> tab) {
@@ -672,6 +724,19 @@ public class FXMLDocumentController implements Callback, Initializable {
             }
         }
 
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+        //gameBox.setItems();
+        addLobbyTableData(LobbyList.getInstance().getLobbyList(), lobbyTable);
+
+        games = new ArrayList<>();
+        for (Game game : GameList.getInstance().getGameList()) {
+            games.add(game.getGameName());
+        }
+        addFormData();
     }
 
 }

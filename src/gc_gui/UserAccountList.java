@@ -52,17 +52,26 @@ public class UserAccountList {
 
     private void addPlayers(String line){
         String parts[] = line.split(" ");
-        Player p = new Player(parts[0], parts[1], parts[2]);
+         Player p = null;
+        if(parts.length > 2){
+            p  = new Player(parts[0], parts[1], parts[2]);
+        } else if (parts.length == 2){
+            p  = new Player(parts[0], parts[1], "");
+        }
+       
         userList.add(p);
-        if(parts[3] != null){
+        if(parts.length > 3){
             for (int i = 3; i < parts.length; i+=3) {
+                if(parts[i].equals("LeagueofLegends")){
+                    parts[i] = "League of Legends";
+                }
                 p.addGameDetails(LobbyList.checkGame(parts[i]), parts[i+1], parts[i+2]);
             }
         }
         return;
     }
     
-    public Player findHost(String host){
+    public Player findPlayer(String host){
         for (Player player : userList) {
             if(player.getUsername().equals(host)){
                 return player;
@@ -70,5 +79,6 @@ public class UserAccountList {
         }
         return null;
     }
+    
     
 }

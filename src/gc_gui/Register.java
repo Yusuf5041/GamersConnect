@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class Register {
 
@@ -13,8 +14,9 @@ public class Register {
     public Register(String username, String password, String discordID, String uni) {
         // TODO - implement Register.Register
         newUser = createUserAccount(username, password, discordID);
-        addUser(newUser);
         newUser.setUniversity(uni);
+        addUser(newUser);
+        
     }
 
     private Player createUserAccount(String username, String password, String discordID) {
@@ -33,7 +35,9 @@ public class Register {
             UserAccountList.getInstance().getUserList().add(newUser);
             String line = newUser.getUsername() + " " + newUser.getPassword() + " " + newUser.getDiscordID();
             writeFile(line);
+            writeFile(newUser.getUniversity());
         } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error handling file");
             Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -46,11 +50,12 @@ public class Register {
     private void writeFile(String line) {
         BufferedWriter writer;
         try {
-            writer = new BufferedWriter(new FileWriter("D://Uni Work/GamersConnect/userlist.txt", true));
+            writer = new BufferedWriter(new FileWriter("lib/userlist.txt", true));
             writer.newLine();
             writer.append(line);
             writer.close();
         } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error handling file");
             Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
         }
 

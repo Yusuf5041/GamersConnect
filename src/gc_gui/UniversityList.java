@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -47,13 +48,16 @@ public class UniversityList {
                 universityList.add(name);
             }   return;
         } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Error: File could not be found");
             Logger.getLogger(GameList.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error: File could not be read");
             Logger.getLogger(GameList.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 in.close();
             } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Error closing file");
                 Logger.getLogger(GameList.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

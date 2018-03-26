@@ -177,6 +177,7 @@ public class Player {
     public void joinLobby(Lobby lobbyName) {
         // TODO - implement Player.joinLobby
         lobbyName.addPlayer(this);
+        LobbyList.getInstance().checkFull(lobbyName);
     }
 
 }

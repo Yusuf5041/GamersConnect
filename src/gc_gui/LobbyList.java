@@ -16,7 +16,7 @@ public class LobbyList {
     private ArrayList<Lobby> filteredList;
     private ArrayList<Lobby> fullList;
 
-    protected LobbyList() {
+    private LobbyList() {
         this.lobbyList = new ArrayList<>();
         this.filteredList = new ArrayList<>();
         this.fullList = new ArrayList<>();
@@ -42,121 +42,158 @@ public class LobbyList {
         return fullList;
     }
 
-    private void readFile(){
+    private void readFile() {
         FileReader in = null;
         try {
             in = new FileReader("lib/lobbylist.txt");
             BufferedReader br = new BufferedReader(in);
-            String name, game, mode, rank, uni, size, host;
+            String name, game, mode, rank, uni, size, users;
+            UserAccountList ual = UserAccountList.getInstance();
+            String[] u;
             Game gameName;
             GameMode gMode;
             Player p;
             Lobby lob;
-            while((name=br.readLine()) != null){
-                game=br.readLine();
-                mode=br.readLine();
-                gameName=checkGame(game);
+            while ((name = br.readLine()) != null) {
+                game = br.readLine();
+                mode = br.readLine();
+                gameName = checkGame(game);
                 gMode = checkMode(gameName, mode);
-                rank=br.readLine();
-                uni=br.readLine();
-                size=br.readLine();
+                rank = br.readLine();
+                uni = br.readLine();
+                size = br.readLine();
                 int s = Integer.parseInt(size);
-                host = br.readLine();
-                p = UserAccountList.getInstance().findHost(host);
-                addLobby(new Lobby(name, gameName, gMode, rank, p.getUniversity(), s, p.getUsername()), p);
-            }   
+                users = br.readLine();
+                u = users.split(" ");
+                p = ual.findPlayer(u[0]);
+                lob = new Lobby(name, gameName, gMode, rank, p.getUniversity(), s, p.getUsername());
+                addLobby(lob, p);
+                for (int i = 1; i < u.length; i++) {
+                    lob.addPlayer(ual.findPlayer(u[i]));
+                }
+                checkFull(lob);
+
+            }
         } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Error: File not found");
             Logger.getLogger(LobbyList.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error: File could not be read");
             Logger.getLogger(LobbyList.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
+        } finally {
             try {
                 in.close();
             } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Error: File could not be closed");
                 Logger.getLogger(GameList.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
     }
+
     /**
      *
      * @param lobbyName
+     * @param p
      */
     public void addLobby(Lobby lobbyName, Player p) {
         // TODO - implement LobbyList.addLobby
         lobbyList.add(lobbyName);
         p.addLobby(lobbyName);
     }
-    
-    public static Game checkGame(String g){
+
+    public static Game checkGame(String g) {
         ArrayList<Game> gl = GameList.getInstance().getGameList();
         for (int i = 0; i < gl.size(); i++) {
-            if(g.equals(gl.get(i).getGameName())) {
+            if (g.equals(gl.get(i).getGameName())) {
                 return gl.get(i);
             }
         }
         return null;
     }
-    
-    public static GameMode checkMode(Game g, String mode){
+
+    public static GameMode checkMode(Game g, String mode) {
         ArrayList<GameMode> m = g.getModes();
         for (int j = 0; j < m.size(); j++) {
-                     if(mode.equals(m.get(j).getModeName())) return m.get(j);
-                }
+            if (mode.equals(m.get(j).getModeName())) {
+                return m.get(j);
+            }
+        }
         return null;
     }
-    
-    public static boolean checkList(Lobby lob){
-        for (int i = 0; i < LobbyList.getInstance().getFilteredList().size(); i++) {
-            if(lob == LobbyList.getInstance().getFilteredList().get(i)) return true;
+
+    public boolean checkList(Lobby lob) {
+        for (int i = 0; i < filteredList.size(); i++) {
+            if (lob == filteredList.get(i)) {
+                return true;
+            }
         }
         return false;
     }
+
+    public boolean checkFull(Lobby lob) {
+        if (lob.getPlayerList().size() == lob.getSize()) {
+            fullList.add(lob);
+            lobbyList.remove(lob);
+            return true;
+        } else {
+            if (!lobbyList.contains(lob)) {
+                lobbyList.add(lob);
+                fullList.remove(lob);
+            }
+        }
+        return false;
+    }
+
     /**
      *
      * @param lobbyName
      */
     public void removeLobby(Lobby lobbyName) {
         // TODO - implement LobbyList.removeLobby
-        try{
+        try {
             lobbyList.remove(lobbyName);
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
 
         }
-        try{
+        try {
             fullList.remove(lobbyName);
-        } catch(NullPointerException e){
-            
+        } catch (NullPointerException e) {
+
         }
-        try{
+        try {
             filteredList.remove(lobbyName);
-        }catch(NullPointerException e){
-            
+        } catch (NullPointerException e) {
+
         }
-        
-            
     }
 
-    public static void filterList(String game, String mode, String rank, String uni){
+    public static void filterList(String game, String mode, String rank, String uni) {
         LobbyList.getInstance().getFilteredList().clear();
+        LobbyList inst = LobbyList.getInstance();
+        if (game.equals("Any")) {
+
+        } else {
+
+        }
         Game g = checkGame(game);
         GameMode gm = checkMode(g, mode);
-        LobbyList inst = LobbyList.getInstance();
+
         for (Lobby lobby : inst.getLobbyList()) {
-            if(g == lobby.getLobbyGame()){
-                if(gm == lobby.getLobbyMode()){
-                    if(rank.equals(lobby.getLobbyRank())){
-                        if(uni == lobby.getLobbyUniversity() || uni.equals("Any")){
-                            
-                                inst.getFilteredList().add(lobby);
-                            
+            if (g == lobby.getLobbyGame() || game.equals("Any")) {
+                if (gm == lobby.getLobbyMode() || mode.equals("Any")) {
+                    if (rank.equals(lobby.getLobbyRank()) || rank.equals("Any")) {
+                        if (uni.equals(lobby.getLobbyUniversity()) || uni.equals("Any")) {
+
+                            inst.getFilteredList().add(lobby);
+
                         }
                     }
                 }
             }
         }
     }
-    
+
     public Integer findLobbySize() {
         // TODO - implement LobbyList.findLobbySize
         throw new UnsupportedOperationException();

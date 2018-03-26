@@ -43,14 +43,9 @@ public class HostRole extends Role {
      */
     public void removeUser(Lobby lobbyName, Player user) {
         // TODO - implement HostRole.removeUser
-        for (int i = 0; i < userLobbies.size(); i++) {
-            if(lobbyName==userLobbies.get(i)){
-                for (int j = 0; j < userLobbies.get(i).getPlayerList().size(); j++) {
-                    if(user==userLobbies.get(i).getPlayerList().get(j)){
-                        userLobbies.get(i).getPlayerList().remove(j);
-                        break;
-                    }
-                }
+        for (int i = 0; i < lobbyName.getPlayerList().size(); i++) {
+            if (user == lobbyName.getPlayerList().get(i)) {
+                lobbyName.getPlayerList().remove(i);
                 break;
             }
         }

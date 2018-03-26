@@ -23,9 +23,9 @@
 <AnchorPane id="AnchorPane" maxHeight="545.0" maxWidth="848.0" minHeight="545.0" minWidth="848.0" prefHeight="545.0" prefWidth="848.0" style="-fx-background-color: #2D3447;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gc_gui.FXMLDocumentController">
     
    <children>
-      <AnchorPane fx:id="gc_login" prefHeight="545.0" prefWidth="848.0" style="-fx-background-color: #2D3447;" visible="false">
+      <AnchorPane fx:id="gc_login" prefHeight="545.0" prefWidth="848.0" style="-fx-background-color: #2D3447;">
          <children>
-            <Label layoutX="679.0" layoutY="46.0" text="Not a member?" textFill="#d3d4d6" />
+            <Label layoutX="668.0" layoutY="46.0" text="Not a member?" textFill="#d3d4d6" />
             <ImageView fitHeight="59.0" fitWidth="58.0" layoutX="236.0" layoutY="252.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../lib/Lock-48.png" />
@@ -139,20 +139,21 @@
                                  </font>
                               </TextField>
                               <Button fx:id="viewProfileButton" layoutX="350.0" layoutY="240.0" mnemonicParsing="false" onAction="#handleViewProfileAction" prefHeight="30.0" prefWidth="149.0" style="-fx-background-color: #e9f814;" text="View Profile" />
+                              <Button fx:id="logoutButton" layoutX="350.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleLogoutAction" prefHeight="30.0" prefWidth="149.0" style="-fx-background-color: #e9f814;" text="Logout" />
                            </children></AnchorPane>
                     </content>
                   </Tab>
-                  <Tab fx:id="hostLobbies" disable="true" style="-fx-background-color: #2d3447;" text="My Lobbies">
+                  <Tab fx:id="hostLobbies" disable="true" style="-fx-background-color: #2d3447;" text="Host Lobbies">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <TableView fx:id="myLobbyTable" layoutX="19.0" layoutY="69.0" prefHeight="290.0" prefWidth="811.0" style="-fx-background-color: #2d3447; -fx-border-style: solid; -fx-border-color: #2c2c2c; -fx-border-radius: 20;">
                                  <columns>
-                                    <TableColumn fx:id="titleColl" prefWidth="217.0" text="Title" />
-                                    <TableColumn fx:id="gameColl" minWidth="0.0" prefWidth="207.0" text="Game" />
-                                    <TableColumn fx:id="modeColl" prefWidth="151.0" text="Mode" />
-                                    <TableColumn fx:id="rankColl" minWidth="0.0" prefWidth="168.0" text="Rank" />
-                                    <TableColumn fx:id="univColl" prefWidth="75.0" text="University" />
+                                    <TableColumn fx:id="titleColl" prefWidth="200.0" text="Title" />
+                                    <TableColumn fx:id="gameColl" minWidth="0.0" prefWidth="150.0" text="Game" />
+                                    <TableColumn fx:id="modeColl" prefWidth="130.0" text="Mode" />
+                                    <TableColumn fx:id="rankColl" minWidth="0.0" prefWidth="120.0" text="Rank" />
+                                    <TableColumn fx:id="univColl" prefWidth="140.0" text="University" />
                                     <TableColumn fx:id="sizeColl" prefWidth="67.0" text="Size" />
                                  </columns>
                               </TableView>
@@ -166,7 +167,7 @@
             </JFXTabPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="gc_register" prefHeight="545.0" prefWidth="848.0">
+      <AnchorPane fx:id="gc_register" prefHeight="545.0" prefWidth="848.0" visible="false">
          <children>
             <JFXTextField fx:id="newUsernameField" focusColor="#d3d4d6" layoutX="304.0" layoutY="153.0" prefHeight="25.0" prefWidth="243.0" promptText="  Username" style="-fx-text-fill: #e9f814;" unFocusColor="#b1b3b8">
                <font>
@@ -281,7 +282,7 @@
                </font>
             </Label>
             <TextField fx:id="profileDiscordField" alignment="CENTER" layoutX="142.0" layoutY="193.0" prefHeight="36.0" prefWidth="149.0" style="-fx-text-fill: #e9f814; -fx-background-color: #2c2c2c;" />
-            <JFXButton fx:id="saveProfileButton" layoutX="72.0" layoutY="449.0" onAction="#handleRegisterAction" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #e9f814;" text="Save" textFill="#2c2c2c" visible="false">
+            <JFXButton fx:id="saveProfileButton" layoutX="72.0" layoutY="449.0" onAction="#handleSaveButton" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #e9f814;" text="Save" textFill="#2c2c2c" visible="false">
                <font>
                   <Font size="14.0" />
                </font>

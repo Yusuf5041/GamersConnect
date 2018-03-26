@@ -12,6 +12,7 @@ public class Lobby {
     private int size;
     private ArrayList<Player> playerList;
     private String host;
+    private LobbyList ll;
 
     /**
      *
@@ -30,10 +31,15 @@ public class Lobby {
         this.size = size;
         this.playerList = new ArrayList<>();
         this.host = host;
+        
     }
 
     public int getSize() {
         return size;
+    }
+    
+    public void reduceSize(){
+        size = size - 1;
     }
 
     public String getLobbyTitle() {
@@ -70,8 +76,9 @@ public class Lobby {
      */
     public void addPlayer(Player user) {
         // TODO - implement Lobby.addPlayer
-        this.playerList.add(user);
-        checkFull();
+        
+           this.playerList.add(user); 
+        
     }
 
     public Lobby getLobby() {
@@ -79,11 +86,18 @@ public class Lobby {
         return this;
     }
 
-    private void checkFull() {
+    private boolean checkFull() {
+        LobbyList ll = LobbyList.getInstance();
         if (this.playerList.size() == this.size) {
-            LobbyList.getInstance().getFullList().add(this);
-            LobbyList.getInstance().getLobbyList().remove(this);
+            ll.getFullList().add(this);
+            ll.getLobbyList().remove(this);
+            return true;
         }
+        return false;
+    }
+
+    public void removeLobbyPlayer(Player user) {
+        
     }
 
 }

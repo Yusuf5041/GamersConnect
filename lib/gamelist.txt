@@ -4,3 +4,6 @@ Bronze Silver Gold Platinum Master
 CSGO
 QuickMatch 6 Ranked 4
 Prestige Elite
+League of Legends
+Normal 5 Rank 5
+Bronze Silver Gold Platinum Diamond Challenger
